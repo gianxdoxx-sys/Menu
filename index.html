@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Escaramuza – Menú</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f9f6f1;
+      color: #2c1a0e;
+      min-height: 100vh;
+    }
+
+    /* ── IDIOMAS ── */
+    #lang-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px;
+      background: #fff;
+      border-bottom: 1px solid #e8e0d5;
+    }
+
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: #f5f0ea;
+      color: #5a3e28;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:hover { background: #e8dfd3; }
+    .lang-btn.active { background: #2c1a0e; color: #fff; }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      padding: 40px 20px 28px;
+    }
+
+    header h1 {
+      font-size: clamp(2.2rem, 7vw, 3.5rem);
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #2c1a0e;
+    }
+
+    .header-line {
+      width: 48px;
+      height: 2px;
+      background: #c8a97e;
+      margin: 12px auto;
+    }
+
+    header p {
+      font-size: 0.78rem;
+      letter-spacing: 4px;
+      color: #9a7d5e;
+      font-style: italic;
+    }
+
+    /* ── TABS ── */
+    #tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1.5px solid #ddd3c7;
+      background: #fff;
+      color: #7a6050;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: Georgia, serif;
+    }
+
+    .tab-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .tab-btn:hover { background: #f5ede3; }
+    .tab-btn.active { background: #2c1a0e; color: #fff; border-color: #2c1a0e; box-shadow: 0 4px 14px rgba(44,26,14,0.18); }
+
+    /* ── CARD ── */
+    #menu-card {
+      max-width: 900px;
+      margin: 0 auto 48px;
+      padding: 0 16px;
+    }
+
+    .card-inner {
+      background: #fff;
+      border-radius: 32px;
+      border: 1px solid #ece5db;
+      box-shadow: 0 8px 40px rgba(44,26,14,0.07);
+      padding: clamp(24px, 6vw, 56px);
+      min-height: 480px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f3ede5;
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: clamp(1.4rem, 4vw, 1.9rem);
+      font-weight: 300;
+      color: #2c1a0e;
+    }
+
+    .card-title svg { width: 24px; height: 24px; flex-shrink: 0; }
+
+    .card-price-global {
+      font-size: 1.5rem;
+      color: #ccc0b0;
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    /* ── ITEMS GRID ── */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0 56px;
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      padding-bottom: 16px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #f5f0ea;
+    }
+
+    .menu-item-name {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2c1a0e;
+      line-height: 1.4;
+    }
+
+    .menu-item-price {
+      color: #b0a090;
+      font-style: italic;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── SUBCATEGORIES (Tés) ── */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .subcat {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .subcat-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .subcat-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot-black  { background: #3f3f46; }
+    .dot-green  { background: #10b981; }
+    .dot-gold   { background: #fbbf24; }
+    .dot-amber  { background: #ea580c; }
+
+    .subcat-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #2c1a0e;
+    }
+
+    .subcat-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #9a8070;
+    }
+
+    .subcat-profile {
+      font-size: 0.78rem;
+      color: #7a6a58;
+      font-style: italic;
+      line-height: 1.5;
+      background: #f9f5f0;
+      border-left: 3px solid #ddd3c7;
+      padding: 8px 12px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .subcat ul { list-style: none; display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+
+    .subcat li {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: #4a3828;
+    }
+
+    .subcat li span.p { color: #c0b0a0; font-style: italic; }
+
+    /* ── NOTA ── */
+    .card-note {
+      margin-top: 40px;
+      padding: 16px 20px;
+      background: #f9f5f0;
+      border: 1px solid #ece5db;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: #7a6a58;
+      font-weight: 500;
+    }
+
+    .card-note svg { width: 18px; height: 18px; color: #b0a090; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c0b0a0;
+    }
+
+    @media (max-width: 520px) {
+      .items-grid { grid-template-columns: 1fr; gap: 0; }
+      .sub-grid   { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SELECTOR DE IDIOMA -->
+<div id="lang-bar"></div>
+
+<!-- CABECERA -->
+<header>
+  <h1>Escaramuza</h1>
+  <div class="header-line"></div>
+  <p id="subtitle"></p>
+</header>
+
+<!-- PESTAÑAS -->
+<div id="tab-bar"></div>
+
+<!-- TARJETA MENÚ -->
+<div id="menu-card">
+  <div class="card-inner" id="card-inner"></div>
+</div>
+
+<!-- PIE -->
+<footer id="footer-text"></footer>
+
+<script>
+// ════════════════════════════════════════
+//  DATOS
+// ════════════════════════════════════════
+const languages = [
+  { code:'es', name:'Español',    flag:'🇪🇸' },
+  { code:'en', name:'English',    flag:'🇬🇧' },
+  { code:'de', name:'Deutsch',    flag:'🇩🇪' },
+  { code:'ja', name:'日本語',     flag:'🇯🇵' },
+  { code:'fr', name:'Français',   flag:'🇫🇷' },
+  { code:'it', name:'Italiano',   flag:'🇮🇹' },
+  { code:'nl', name:'Nederlands', flag:'🇳🇱' },
+  { code:'ru', name:'Русский',    flag:'🇷🇺' }
+];
+
+const T = {
+  es:{
+    subtitle:"MENÚ DE BEBIDAS",
+    footer:"Precios con IVA incluido.",
+    supplement:"Suplemento leche de Avena o Almendra: +0,30 €",
+    categories:["Cafetería","Matcha Bar","Limonadas","Tés e Infusiones","Fríos y Jugos","Refrescos","Vinos y Cervezas"],
+    items:{
+      "Espresso Doble / Cortado":"Espresso Doble / Cortado","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Capuccino / Latte","Chocolate Caliente":"Chocolate Caliente","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Matcha Latte Clásico","Iced Matcha Mango":"Iced Matcha Mango",
+      "Iced Matcha Frutos Rojos":"Iced Matcha Frutos Rojos","Iced Matcha Coco":"Iced Matcha Coco",
+      "Iced Matcha Maracuyá":"Iced Matcha Maracuyá","Iced Matcha Escaramuza":"Iced Matcha Escaramuza",
+      "Limonada Clásica":"Limonada Clásica","Limonada de Frambuesa":"Limonada de Frambuesa",
+      "Limonada de Mango":"Limonada de Mango","Limonada de Coco":"Limonada de Coco",
+      "Limonada de Maracuyá":"Limonada de Maracuyá","Limonada de Menta y Jengibre":"Limonada de Menta y Jengibre",
+      "Cold Brew Puro":"Cold Brew Puro","Iced Latte":"Iced Latte (Normal, Vainilla o Caramelo)",
+      "Jugo de Naranja Natural":"Jugo de Naranja Natural","Coca-Cola":"Coca-Cola (Normal o Zero)",
+      "Agua":"Agua (Con o Sin gas)","Cerveza":"Cerveza (Normal o 0.0)",
+      "Tinto de Verano":"Tinto de Verano","Vino Blanco":"Vino Blanco (Seco, Semi-dulce o Dulce)",
+      "Vino Tinto":"Vino Tinto","Jengibre y Limón":"Jengibre y Limón","Lavanda":"Lavanda"
+    },
+    gamas:{
+      black:{name:"GAMA NEGRA",tag:"Energía y Desayuno",profile:"Alto contenido en teína, sabores robustos y terrosos."},
+      green:{name:"GAMA VERDE Y BLANCA",tag:"Antioxidante y Ligereza",profile:"Teína moderada/baja, sabores florales y frescos."},
+      gold:{name:"GAMA DORADA",tag:"Bienestar y Digestión",profile:"Sin teína. Cítricos y medicinales."},
+      amber:{name:"GAMA ÁMBAR Y FLORAL",tag:"Relajación",profile:"Sin teína. Dulces y cálidos."}
+    }
+  },
+  en:{
+    subtitle:"DRINKS MENU",
+    footer:"Prices include VAT.",
+    supplement:"Oat or Almond milk supplement: +0.30 €",
+    categories:["Coffee Bar","Matcha Bar","Lemonades","Teas & Infusions","Cold Drinks","Soft Drinks","Wines & Beers"],
+    items:{
+      "Espresso Doble / Cortado":"Double Espresso / Cortado","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Cappuccino / Latte","Chocolate Caliente":"Hot Chocolate","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Classic Matcha Latte","Iced Matcha Mango":"Iced Mango Matcha",
+      "Iced Matcha Frutos Rojos":"Iced Berry Matcha","Iced Matcha Coco":"Iced Coconut Matcha",
+      "Iced Matcha Maracuyá":"Iced Passion Fruit Matcha","Iced Matcha Escaramuza":"Iced Escaramuza Matcha",
+      "Limonada Clásica":"Classic Lemonade","Limonada de Frambuesa":"Raspberry Lemonade",
+      "Limonada de Mango":"Mango Lemonade","Limonada de Coco":"Coconut Lemonade",
+      "Limonada de Maracuyá":"Passion Fruit Lemonade","Limonada de Menta y Jengibre":"Mint & Ginger Lemonade",
+      "Cold Brew Puro":"Pure Cold Brew","Iced Latte":"Iced Latte (Regular, Vanilla or Caramel)",
+      "Jugo de Naranja Natural":"Fresh Orange Juice","Coca-Cola":"Coca-Cola (Regular or Zero)",
+      "Agua":"Water (Still or Sparkling)","Cerveza":"Beer (Regular or 0.0)",
+      "Tinto de Verano":"Red Wine Spritzer","Vino Blanco":"White Wine (Dry, Semi-sweet or Sweet)",
+      "Vino Tinto":"Red Wine","Jengibre y Limón":"Ginger & Lemon","Lavanda":"Lavender"
+    },
+    gamas:{
+      black:{name:"BLACK RANGE",tag:"Energy & Breakfast",profile:"High theine content, robust and earthy flavors."},
+      green:{name:"GREEN & WHITE RANGE",tag:"Antioxidant & Lightness",profile:"Moderate/low theine, floral and fresh flavors."},
+      gold:{name:"GOLDEN RANGE",tag:"Wellness & Digestion",profile:"Theine-free. Citric and medicinal flavors."},
+      amber:{name:"AMBER & FLORAL",tag:"Relaxation",profile:"Theine-free. Sweet and warm."}
+    }
+  },
+  de:{
+    subtitle:"GETRÄNKEKARTE",
+    footer:"Preise inkl. MwSt.",
+    supplement:"Zuschlag Hafer- oder Mandelmilch: +0,30 €",
+    categories:["Kaffeehaus","Matcha Bar","Limonaden","Tee & Aufgüsse","Kaltgetränke","Erfrischungen","Wein & Bier"],
+    items:{
+      "Espresso Doble / Cortado":"Doppelter Espresso / Cortado","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Cappuccino / Latte","Chocolate Caliente":"Heiße Schokolade","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Klassischer Matcha Latte","Iced Matcha Mango":"Eis-Matcha Mango",
+      "Iced Matcha Frutos Rojos":"Eis-Matcha Beeren","Iced Matcha Coco":"Eis-Matcha Kokos",
+      "Iced Matcha Maracuyá":"Eis-Matcha Passionsfrucht","Iced Matcha Escaramuza":"Eis-Matcha Escaramuza",
+      "Limonada Clásica":"Klassische Limonade","Limonada de Frambuesa":"Himbeer-Limonade",
+      "Limonada de Mango":"Mango-Limonade","Limonada de Coco":"Kokos-Limonade",
+      "Limonada de Maracuyá":"Passionsfrucht-Limonade","Limonada de Menta y Jengibre":"Minze & Ingwer Limonade",
+      "Cold Brew Puro":"Pure Cold Brew","Iced Latte":"Iced Latte (Normal, Vanille oder Karamell)",
+      "Jugo de Naranja Natural":"Frischer Orangensaft","Coca-Cola":"Coca-Cola",
+      "Agua":"Wasser","Cerveza":"Bier","Tinto de Verano":"Tinto de Verano",
+      "Vino Blanco":"Weißwein","Vino Tinto":"Rotwein",
+      "Jengibre y Limón":"Ingwer & Zitrone","Lavanda":"Lavendel"
+    },
+    gamas:{
+      black:{name:"SCHWARZE SERIE",tag:"Energie & Frühstück",profile:"Hoher Teeingehalt, kräftige und erdige Aromen."},
+      green:{name:"GRÜNE & WEISSE SERIE",tag:"Antioxidans & Leichtigkeit",profile:"Mäßiges Teein, blumige und frische Aromen."},
+      gold:{name:"GOLDENE SERIE",tag:"Wellness & Verdauung",profile:"Teeinfrei. Zitrus und medizinisch."},
+      amber:{name:"BERNSTEIN & FLORAL",tag:"Entspannung",profile:"Teeinfrei. Süß und warm."}
+    }
+  },
+  ja:{
+    subtitle:"ドリンクメニュー",
+    footer:"税込価格",
+    supplement:"オーツミルクまたはアーモンドミルク: +0.30 €",
+    categories:["カフェ","抹茶バー","レモネード","ティー","コールドドリンク","ソフトドリンク","ワイン＆ビール"],
+    items:{
+      "Espresso Doble / Cortado":"ダブルエスプレッソ / コルタード","Americano":"アメリカーノ","Flat White":"フラットホワイト",
+      "Capuccino / Latte":"カプチーノ / ラテ","Chocolate Caliente":"ホットチョコレート","Chai Latte":"チャイラテ",
+      "Matcha Latte Clásico":"クラシック抹茶ラテ","Iced Matcha Mango":"アイス抹茶マンゴー",
+      "Iced Matcha Frutos Rojos":"アイス抹茶ベリー","Iced Matcha Coco":"アイス抹茶ココナッツ",
+      "Iced Matcha Maracuyá":"アイス抹茶パッションフルーツ","Iced Matcha Escaramuza":"アイス抹茶エスカラムーサ",
+      "Limonada Clásica":"クラシックレモネード","Limonada de Frambuesa":"ラズベリーレモネード",
+      "Limonada de Mango":"マンゴーレモネード","Limonada de Coco":"ココナッツレモネード",
+      "Limonada de Maracuyá":"パッションフルーツレモネード","Limonada de Menta y Jengibre":"ミントとジンジャーのレモネード",
+      "Cold Brew Puro":"コールドブリュー","Iced Latte":"アイスラテ",
+      "Jugo de Naranja Natural":"生搾りオレンジジュース","Coca-Cola":"コカ・コーラ",
+      "Agua":"水","Cerveza":"ビール","Tinto de Verano":"ティント・デ・ベラーノ",
+      "Vino Blanco":"白ワイン","Vino Tinto":"赤ワイン",
+      "Jengibre y Limón":"ジンジャー＆レモン","Lavanda":"ラベンダー"
+    },
+    gamas:{
+      black:{name:"ブラック・シリーズ",tag:"エネルギー",profile:"テアニン高め。力強い風味。"},
+      green:{name:"グリーン＆ホワイト",tag:"抗酸化",profile:"テアニン低め。フローラル。"},
+      gold:{name:"ゴールド・シリーズ",tag:"ウェルネス",profile:"ノンカフェイン。柑橘系。"},
+      amber:{name:"アンバー・シリーズ",tag:"リラックス",profile:"ノンカフェイン。甘く温かい。"}
+    }
+  },
+  fr:{
+    subtitle:"CARTE DES BOISSONS",
+    footer:"Prix TTC.",
+    supplement:"Lait d'avoine ou d'amande : +0,30 €",
+    categories:["Cafétéria","Bar à Matcha","Limonades","Thés & Infusions","Boissons Froides","Rafraîchissements","Vins & Bières"],
+    items:{
+      "Espresso Doble / Cortado":"Double Espresso / Cortado","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Cappuccino / Latte","Chocolate Caliente":"Chocolat Chaud","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Matcha Latte Classique","Iced Matcha Mango":"Matcha Glacé Mangue",
+      "Iced Matcha Frutos Rojos":"Matcha Glacé Fruits Rouges","Iced Matcha Coco":"Matcha Glacé Coco",
+      "Iced Matcha Maracuyá":"Matcha Glacé Fruit de la Passion","Iced Matcha Escaramuza":"Matcha Glacé Escaramuza",
+      "Limonada Clásica":"Limonade Classique","Limonada de Frambuesa":"Limonade Framboise",
+      "Limonada de Mango":"Limonade Mangue","Limonada de Coco":"Limonade Coco",
+      "Limonada de Maracuyá":"Limonade Fruit de la Passion","Limonada de Menta y Jengibre":"Limonade Menthe & Gingembre",
+      "Cold Brew Puro":"Cold Brew Pur","Iced Latte":"Latte Glacé (Nature, Vanille ou Caramel)",
+      "Jugo de Naranja Natural":"Jus d'Orange Frais","Coca-Cola":"Coca-Cola",
+      "Agua":"Eau","Cerveza":"Bière","Tinto de Verano":"Tinto de Verano",
+      "Vino Blanco":"Vin Blanc","Vino Tinto":"Vin Rouge",
+      "Jengibre y Limón":"Gingembre & Citron","Lavanda":"Lavande"
+    },
+    gamas:{
+      black:{name:"GAMME NOIRE",tag:"Énergie & Petit-déjeuner",profile:"Théine élevée, saveurs robustes et terreuses."},
+      green:{name:"GAMME VERTE & BLANCHE",tag:"Antioxydant & Légèreté",profile:"Théine modérée, saveurs florales et fraîches."},
+      gold:{name:"GAMME DORÉE",tag:"Bien-être & Digestion",profile:"Sans théine. Agrumes et médicinal."},
+      amber:{name:"GAMME AMBRE & FLORALE",tag:"Relaxation",profile:"Sans théine. Doux et chaud."}
+    }
+  },
+  it:{
+    subtitle:"MENU BEVANDE",
+    footer:"Prezzi IVA inclusa.",
+    supplement:"Latte di avena o mandorla: +0,30 €",
+    categories:["Caffetteria","Matcha Bar","Limonate","Tè e Infusi","Bevande Fredde","Bibite","Vini e Birre"],
+    items:{
+      "Espresso Doble / Cortado":"Espresso Doppio / Cortato","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Cappuccino / Latte","Chocolate Caliente":"Cioccolata Calda","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Matcha Latte Classico","Iced Matcha Mango":"Matcha Freddo Mango",
+      "Iced Matcha Frutos Rojos":"Matcha Freddo Frutti Rossi","Iced Matcha Coco":"Matcha Freddo Cocco",
+      "Iced Matcha Maracuyá":"Matcha Freddo Frutto della Passione","Iced Matcha Escaramuza":"Matcha Freddo Escaramuza",
+      "Limonada Clásica":"Limonata Classica","Limonada de Frambuesa":"Limonata al Lampone",
+      "Limonada de Mango":"Limonata al Mango","Limonada de Coco":"Limonata al Cocco",
+      "Limonada de Maracuyá":"Limonata al Frutto della Passione","Limonada de Menta y Jengibre":"Limonata Menta e Zenzero",
+      "Cold Brew Puro":"Cold Brew Puro","Iced Latte":"Latte Freddo (Normale, Vaniglia o Caramello)",
+      "Jugo de Naranja Natural":"Spremuta d'Arancia","Coca-Cola":"Coca-Cola",
+      "Agua":"Acqua","Cerveza":"Birra","Tinto de Verano":"Tinto de Verano",
+      "Vino Blanco":"Vino Bianco","Vino Tinto":"Vino Rosso",
+      "Jengibre y Limón":"Zenzero & Limone","Lavanda":"Lavanda"
+    },
+    gamas:{
+      black:{name:"GAMMA NERA",tag:"Energia & Colazione",profile:"Alta teina, sapori robusti e terrosi."},
+      green:{name:"GAMMA VERDE & BIANCA",tag:"Antiossidante & Leggerezza",profile:"Teina moderata, sapori floreali e freschi."},
+      gold:{name:"GAMMA DORATA",tag:"Benessere & Digestione",profile:"Senza teina. Agrumi e medicinali."},
+      amber:{name:"GAMMA AMBRA & FLOREALE",tag:"Relax",profile:"Senza teina. Dolce e caldo."}
+    }
+  },
+  nl:{
+    subtitle:"DRANKENKAART",
+    footer:"Prijzen incl. BTW.",
+    supplement:"Haver- of amandelmelk: +0,30 €",
+    categories:["Koffiebar","Matchabar","Limonades","Thee & Infusies","Koude Dranken","Frisdranken","Wijn & Bier"],
+    items:{
+      "Espresso Doble / Cortado":"Dubbele Espresso / Cortado","Americano":"Americano","Flat White":"Flat White",
+      "Capuccino / Latte":"Cappuccino / Latte","Chocolate Caliente":"Warme Chocolademelk","Chai Latte":"Chai Latte",
+      "Matcha Latte Clásico":"Klassieke Matcha Latte","Iced Matcha Mango":"Ijs-Matcha Mango",
+      "Iced Matcha Frutos Rojos":"Ijs-Matcha Bosvruchten","Iced Matcha Coco":"Ijs-Matcha Kokos",
+      "Iced Matcha Maracuyá":"Ijs-Matcha Passievrucht","Iced Matcha Escaramuza":"Ijs-Matcha Escaramuza",
+      "Limonada Clásica":"Klassieke Limonade","Limonada de Frambuesa":"Frambozenlimonade",
+      "Limonada de Mango":"Mangolimonade","Limonada de Coco":"Kokoslimonade",
+      "Limonada de Maracuyá":"Passievruchtlimonade","Limonada de Menta y Jengibre":"Munt & Gember Limonade",
+      "Cold Brew Puro":"Pure Cold Brew","Iced Latte":"Ijs-Latte (Normaal, Vanille of Karamel)",
+      "Jugo de Naranja Natural":"Verse Sinaasappelsap","Coca-Cola":"Coca-Cola",
+      "Agua":"Water","Cerveza":"Bier","Tinto de Verano":"Tinto de Verano",
+      "Vino Blanco":"Witte Wijn","Vino Tinto":"Rode Wijn",
+      "Jengibre y Limón":"Gember & Citroen","Lavanda":"Lavendel"
+    },
+    gamas:{
+      black:{name:"ZWARTE SERIE",tag:"Energie & Ontbijt",profile:"Hoog theïnegehalte, krachtige smaken."},
+      green:{name:"GROENE & WITTE SERIE",tag:"Antioxidant & Licht",profile:"Matig theïne, bloemige smaken."},
+      gold:{name:"GOUDEN SERIE",tag:"Welzijn & Spijsvertering",profile:"Theïnevrij. Citrus en medicinaal."},
+      amber:{name:"AMBER & BLOEMEN",tag:"Ontspanning",profile:"Theïnevrij. Zoet en warm."}
+    }
+  },
+  ru:{
+    subtitle:"МЕНЮ НАПИТКОВ",
+    footer:"Цены с НДС.",
+    supplement:"Овсяное или миндальное молоко: +0,30 €",
+    categories:["Кофейня","Матча-бар","Лимонады","Чай","Холодные напитки","Прохладительные","Вино и пиво"],
+    items:{
+      "Espresso Doble / Cortado":"Двойной эспрессо / Кортадо","Americano":"Американо","Flat White":"Флэт уайт",
+      "Capuccino / Latte":"Капучино / Латте","Chocolate Caliente":"Горячий шоколад","Chai Latte":"Чай латте",
+      "Matcha Latte Clásico":"Классический матча латте","Iced Matcha Mango":"Айс-матча манго",
+      "Iced Matcha Frutos Rojos":"Айс-матча ягоды","Iced Matcha Coco":"Айс-матча кокос",
+      "Iced Matcha Maracuyá":"Айс-матча маракуйя","Iced Matcha Escaramuza":"Айс-матча Эскарамуса",
+      "Limonada Clásica":"Классический лимонад","Limonada de Frambuesa":"Малиновый лимонад",
+      "Limonada de Mango":"Манговый лимонад","Limonada de Coco":"Кокосовый лимонад",
+      "Limonada de Maracuyá":"Лимонад маракуйя","Limonada de Menta y Jengibre":"Лимонад мята-имбирь",
+      "Cold Brew Puro":"Холодный кофе","Iced Latte":"Айс-латте (обычный, ваниль или карамель)",
+      "Jugo de Naranja Natural":"Апельсиновый сок","Coca-Cola":"Кока-кола",
+      "Agua":"Вода","Cerveza":"Пиво","Tinto de Verano":"Тинто де верано",
+      "Vino Blanco":"Белое вино","Vino Tinto":"Красное вино",
+      "Jengibre y Limón":"Имбирь и лимон","Lavanda":"Лаванда"
+    },
+    gamas:{
+      black:{name:"ЧЁРНАЯ ГАММА",tag:"Энергия и завтрак",profile:"Высокое содержание теина, насыщенный вкус."},
+      green:{name:"ЗЕЛЁНАЯ И БЕЛАЯ ГАММА",tag:"Антиоксиданты",profile:"Умеренный теин, цветочный аромат."},
+      gold:{name:"ЗОЛОТАЯ ГАММА",tag:"Здоровье и пищеварение",profile:"Без теина. Цитрус и травы."},
+      amber:{name:"ЯНТАРНАЯ И ЦВЕТОЧНАЯ",tag:"Релаксация",profile:"Без теина. Сладкий и тёплый."}
+    }
+  }
+};
+
+// ════════════════════════════════════════
+//  ICONOS SVG inline
+// ════════════════════════════════════════
+const ICONS = {
+  coffee: `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v2m4-2v2m4-2v2M3 8h18l-1.5 10.5A2 2 0 0117.51 20H6.49a2 2 0 01-1.99-1.5L3 8zm15 0a3 3 0 013 3v0a3 3 0 01-3 3h-1"/></svg>`,
+  leaf:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3C7 3 3 7.5 3 12c0 3.87 2.5 7.17 6 8.48V21h6v-.52C18.5 19.17 21 15.87 21 12c0-4.5-4-9-9-9z"/></svg>`,
+  drop:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25s-7.5 8.25-7.5 12a7.5 7.5 0 0015 0c0-3.75-7.5-12-7.5-12z"/></svg>`,
+  wind:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h11a4 4 0 000-8H3m0 8v0m0 0H3m15 4H3m18 0a4 4 0 01-4 4H3"/></svg>`,
+  ice:    `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>`,
+  bubble: `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path stroke-linecap="round" d="M9 15s1 2 3 2 3-2 3-2"/></svg>`,
+  wine:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l1 7a5 5 0 01-10 0L8 3zM12 15v6M9 21h6"/></svg>`,
+  info:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v.01M12 11v5"/></svg>`
+};
+
+const ICON_COLORS = [
+  'color:#92400e','color:#16a34a','color:#60a5fa',
+  'color:#d97706','color:#3b82f6','color:#06b6d4','color:#b91c1c'
+];
+
+// ════════════════════════════════════════
+//  CONSTRUCCIÓN DEL MENÚ
+// ════════════════════════════════════════
+function getMenu(lang) {
+  const t = T[lang];
+  const i = (k) => t.items[k] || k;
+  return [
+    {
+      title: t.categories[0], icon: ICONS.coffee, color: ICON_COLORS[0],
+      notes: t.supplement,
+      items: [
+        {name: i("Espresso Doble / Cortado"), price:"2.80 €"},
+        {name: i("Americano"),                price:"3.00 €"},
+        {name: i("Flat White"),               price:"3.20 €"},
+        {name: i("Capuccino / Latte"),        price:"3.20 €"},
+        {name: i("Chocolate Caliente"),       price:"4.00 €"},
+        {name: i("Chai Latte"),               price:"4.00 €"}
+      ]
+    },
+    {
+      title: t.categories[1], icon: ICONS.leaf, color: ICON_COLORS[1],
+      items: [
+        {name: i("Matcha Latte Clásico"),      price:"4.90 €"},
+        {name: i("Iced Matcha Mango"),         price:"5.50 €"},
+        {name: i("Iced Matcha Frutos Rojos"),  price:"5.50 €"},
+        {name: i("Iced Matcha Coco"),          price:"5.50 €"},
+        {name: i("Iced Matcha Maracuyá"),      price:"5.50 €"},
+        {name: i("Iced Matcha Escaramuza"),    price:"5.50 €"}
+      ]
+    },
+    {
+      title: t.categories[2], icon: ICONS.drop, color: ICON_COLORS[2],
+      globalPrice: "4.00 €",
+      simpleItems: [
+        i("Limonada Clásica"), i("Limonada de Frambuesa"), i("Limonada de Mango"),
+        i("Limonada de Coco"), i("Limonada de Maracuyá"), i("Limonada de Menta y Jengibre")
+      ]
+    },
+    {
+      title: t.categories[3], icon: ICONS.wind, color: ICON_COLORS[3],
+      globalPrice: "3.80 €",
+      subcategories: [
+        { name: t.gamas.black.name, tag: t.gamas.black.tag, dot:"dot-black", profile: t.gamas.black.profile,
+          items:["Té Negro English Breakfast Eco","Té Negro Earl Grey","Té Negro Chai"] },
+        { name: t.gamas.green.name, tag: t.gamas.green.tag, dot:"dot-green", profile: t.gamas.green.profile,
+          items:["Té Verde Jazmín","Té Verde Sakura","Té Blanco Seda","Té Blanco y Verde Noches de Toronto","Té Rojo y Verde Silueta"] },
+        { name: t.gamas.gold.name,  tag: t.gamas.gold.tag,  dot:"dot-gold",  profile: t.gamas.gold.profile,
+          items:["Manzanilla", i("Jengibre y Limón"),"Jengibre y Cúrcuma","Infusión Inmunidad","Infusión Depurativa","Chai Digestivo"] },
+        { name: t.gamas.amber.name, tag: t.gamas.amber.tag, dot:"dot-amber", profile: t.gamas.amber.profile,
+          items:["Rooibos Clásico / Noches", i("Lavanda")] }
+      ]
+    },
+    {
+      title: t.categories[4], icon: ICONS.ice, color: ICON_COLORS[4],
+      globalPrice: "4.00 €",
+      simpleItems: [i("Cold Brew Puro"), i("Iced Latte"), i("Jugo de Naranja Natural")]
+    },
+    {
+      title: t.categories[5], icon: ICONS.bubble, color: ICON_COLORS[5],
+      globalPrice: "3.00 €",
+      simpleItems: [i("Coca-Cola"),"Fanta","Nestea","7up","Tónica","Energizante", i("Agua")]
+    },
+    {
+      title: t.categories[6], icon: ICONS.wine, color: ICON_COLORS[6],
+      items: [
+        {name: i("Cerveza"),         price:"S.M."},
+        {name: i("Tinto de Verano"), price:"S.M."},
+        {name: i("Vino Blanco"),     price:"S.M."},
+        {name: i("Vino Tinto"),      price:"S.M."}
+      ]
+    }
+  ];
+}
+
+// ════════════════════════════════════════
+//  ESTADO
+// ════════════════════════════════════════
+let currentLang = 'es';
+let currentTab  = 0;
+
+// ════════════════════════════════════════
+//  RENDER
+// ════════════════════════════════════════
+function renderLangBar() {
+  const bar = document.getElementById('lang-bar');
+  bar.innerHTML = languages.map(l => `
+    <button class="lang-btn ${l.code === currentLang ? 'active' : ''}"
+            onclick="changeLang('${l.code}')">
+      <span>${l.flag}</span><span>${l.name}</span>
+    </button>`).join('');
+}
+
+function renderHeader() {
+  document.getElementById('subtitle').textContent = T[currentLang].subtitle;
+}
+
+function renderTabs() {
+  const menu = getMenu(currentLang);
+  const iconSVGs = [ICONS.coffee, ICONS.leaf, ICONS.drop, ICONS.wind, ICONS.ice, ICONS.bubble, ICONS.wine];
+  document.getElementById('tab-bar').innerHTML = menu.map((cat, idx) => `
+    <button class="tab-btn ${idx === currentTab ? 'active' : ''}"
+            onclick="changeTab(${idx})" style="${ICON_COLORS[idx]}">
+      ${iconSVGs[idx]}
+      ${cat.title}
+    </button>`).join('');
+}
+
+function renderCard() {
+  const menu = getMenu(currentLang);
+  const cat  = menu[currentTab];
+  const card = document.getElementById('card-inner');
+
+  let priceHTML = cat.globalPrice
+    ? `<span class="card-price-global">${cat.globalPrice}</span>` : '';
+
+  let bodyHTML = '';
+
+  if (cat.subcategories) {
+    bodyHTML = `<div class="sub-grid">${cat.subcategories.map(sub => `
+      <div class="subcat">
+        <div class="subcat-header">
+          <div class="subcat-dot ${sub.dot}"></div>
+          <div>
+            <div class="subcat-name">${sub.name}</div>
+            <div class="subcat-tag">${sub.tag}</div>
+          </div>
+        </div>
+        <div class="subcat-profile">${sub.profile}</div>
+        <ul>${sub.items.map(it => `
+          <li><span>${it}</span><span class="p">${cat.globalPrice}</span></li>`).join('')}
+        </ul>
+      </div>`).join('')}
+    </div>`;
+
+  } else if (cat.simpleItems) {
+    bodyHTML = `<div class="items-grid">${cat.simpleItems.map(name => `
+      <div class="menu-item">
+        <span class="menu-item-name">${name}</span>
+        <span class="menu-item-price">${cat.globalPrice}</span>
+      </div>`).join('')}
+    </div>`;
+
+  } else {
+    bodyHTML = `<div class="items-grid">${cat.items.map(it => `
+      <div class="menu-item">
+        <span class="menu-item-name">${it.name}</span>
+        <span class="menu-item-price">${it.price}</span>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  const noteHTML = cat.notes ? `
+    <div class="card-note">
+      ${ICONS.info}
+      <p>${cat.notes}</p>
+    </div>` : '';
+
+  card.innerHTML = `
+    <div class="card-header">
+      <div class="card-title" style="${ICON_COLORS[currentTab]}">
+        ${cat.icon} ${cat.title}
+      </div>
+      ${priceHTML}
+    </div>
+    ${bodyHTML}
+    ${noteHTML}`;
+}
+
+function renderFooter() {
+  document.getElementById('footer-text').textContent =
+    `© ${new Date().getFullYear()} Escaramuza Coffee Bar · ${T[currentLang].footer}`;
+}
+
+function render() {
+  renderLangBar();
+  renderHeader();
+  renderTabs();
+  renderCard();
+  renderFooter();
+}
+
+// ════════════════════════════════════════
+//  EVENTOS
+// ════════════════════════════════════════
+function changeLang(code) {
+  currentLang = code;
+  currentTab  = 0;
+  render();
+}
+
+function changeTab(idx) {
+  currentTab = idx;
+  renderTabs();
+  renderCard();
+}
+
+// ════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
