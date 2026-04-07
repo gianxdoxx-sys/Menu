@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Escaramuza – Menú</title>
+  <title>Escaramuza – Menú Interactivo</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -14,6 +14,7 @@
       min-height: 100vh;
     }
 
+    /* Barra de Idiomas */
     #lang-bar {
       display: flex;
       flex-wrap: wrap;
@@ -22,6 +23,9 @@
       padding: 16px;
       background: #fff;
       border-bottom: 1px solid #e8e0d5;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .lang-btn {
       display: flex;
@@ -29,7 +33,7 @@
       gap: 6px;
       padding: 7px 14px;
       border-radius: 12px;
-      border: none;
+      border: 1px solid #f0e8dc;
       cursor: pointer;
       font-size: 0.82rem;
       font-weight: 600;
@@ -37,16 +41,15 @@
       color: #5a3e28;
       transition: all 0.2s;
     }
-    .lang-btn:hover { background: #e8dfd3; }
-    .lang-btn.active { background: #2c1a0e; color: #fff; }
+    .lang-btn.active { background: #2c1a0e; color: #fff; border-color: #2c1a0e; }
 
     header {
       text-align: center;
       padding: 40px 20px 28px;
     }
     header img {
-      max-width: 320px;
-      width: 80%;
+      max-width: 280px;
+      width: 70%;
       margin: 0 auto 16px;
       display: block;
     }
@@ -56,44 +59,48 @@
       margin: 12px auto;
     }
     header p {
-      font-size: 0.78rem;
-      letter-spacing: 4px;
+      font-size: 0.75rem;
+      letter-spacing: 3px;
       color: #9a7d5e;
-      font-style: italic;
+      text-transform: uppercase;
     }
 
+    /* Barra de Categorías */
     #tab-bar {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 8px;
+      overflow-x: auto;
+      justify-content: flex-start;
+      gap: 10px;
       padding: 0 16px 24px;
-      max-width: 960px;
+      max-width: 1000px;
       margin: 0 auto;
+      scrollbar-width: none; /* Firefox */
     }
+    #tab-bar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
     .tab-btn {
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 9px 18px;
+      gap: 8px;
+      padding: 10px 20px;
       border-radius: 999px;
       border: 1.5px solid #ddd3c7;
       background: #fff;
       color: #7a6050;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s;
-      font-family: Georgia, serif;
     }
-    .tab-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-    .tab-btn:hover { background: #f5ede3; }
+    .tab-btn svg { width: 18px; height: 18px; }
     .tab-btn.active {
       background: #2c1a0e; color: #fff;
       border-color: #2c1a0e;
-      box-shadow: 0 4px 14px rgba(44,26,14,0.18);
+      box-shadow: 0 4px 12px rgba(44,26,14,0.15);
     }
 
+    /* Carta del Menú */
     #menu-card {
       max-width: 900px;
       margin: 0 auto 48px;
@@ -101,218 +108,80 @@
     }
     .card-inner {
       background: #fff;
-      border-radius: 32px;
+      border-radius: 24px;
       border: 1px solid #ece5db;
-      box-shadow: 0 8px 40px rgba(44,26,14,0.07);
-      padding: clamp(24px, 6vw, 56px);
-      min-height: 480px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+      padding: 24px;
     }
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #f3ede5;
-      padding-bottom: 24px;
-      margin-bottom: 32px;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
     }
     .card-title {
       display: flex;
       align-items: center;
-      gap: 14px;
-      font-size: clamp(1.4rem, 4vw, 1.9rem);
-      font-weight: 300;
-      color: #2c1a0e;
-    }
-    .card-title svg { width: 24px; height: 24px; flex-shrink: 0; }
-    .card-price-global {
+      gap: 12px;
       font-size: 1.5rem;
-      color: #ccc0b0;
-      font-style: italic;
-      font-weight: 300;
+      font-weight: 400;
     }
+    .card-title svg { width: 28px; height: 28px; }
 
-    /* ── ITEMS ── */
+    /* Items */
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px 56px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
     }
     .menu-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #f5f0ea;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f9f6f1;
     }
     .menu-item-top {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .menu-item-name {
-      font-size: 1rem;
       font-weight: 600;
-      color: #2c1a0e;
-      line-height: 1.4;
+      margin-bottom: 4px;
     }
-    .menu-item-price {
-      color: #b0a090;
-      font-style: italic;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .menu-item-desc {
-      font-size: 0.8rem;
-      color: #9a8070;
-      line-height: 1.5;
-      font-style: italic;
-    }
-    .menu-item-options {
-      font-size: 0.78rem;
-      color: #c8a97e;
-      font-weight: 600;
-      margin-top: 2px;
-    }
+    .menu-item-price { color: #b0a090; font-style: italic; }
+    .menu-item-desc { font-size: 0.85rem; color: #8a7060; font-style: italic; line-height: 1.4; }
+    .menu-item-options { font-size: 0.8rem; color: #c8a97e; margin-top: 4px; font-weight: 700; }
 
-    /* ── SECCIÓN INTERNA (sin acordeón) ── */
-    .section-block {
-      margin-bottom: 36px;
-    }
+    /* Secciones Especiales */
     .section-block-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #c8a97e;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #f0e8dc;
-    }
-
-    /* ── CÓCTELES ── */
-    .cocktail-section {
-      margin-bottom: 36px;
-    }
-    .cocktail-section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #f0e8dc;
-    }
-    .cocktail-section-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #c8293a;
-    }
-    .cocktail-section-subtitle {
-      font-size: 0.75rem;
-      font-style: italic;
-      color: #c8a97e;
-    }
-
-    /* ── TÉS ── */
-    .sub-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 32px;
-    }
-    .subcat { display: flex; flex-direction: column; gap: 12px; }
-    .subcat-header { display: flex; align-items: center; gap: 12px; }
-    .subcat-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
-    .dot-black { background: #3f3f46; }
-    .dot-green { background: #10b981; }
-    .dot-gold  { background: #fbbf24; }
-    .dot-amber { background: #ea580c; }
-    .subcat-name {
-      font-size: 0.85rem; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase; color: #2c1a0e;
-    }
-    .subcat-tag {
-      font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; color: #9a8070;
-    }
-    .subcat-profile {
-      font-size: 0.82rem; color: #7a6a58; font-style: italic;
-      line-height: 1.5; background: #f9f5f0;
-      border-left: 3px solid #ddd3c7;
-      padding: 10px 14px; border-radius: 0 8px 8px 0;
-    }
-    .subcat ul { list-style: none; display: flex; flex-direction: column; gap: 14px; padding-top: 4px; }
-    .subcat li { display: flex; flex-direction: column; gap: 3px; }
-    .subcat-li-top { display: flex; justify-content: space-between; align-items: baseline; }
-    .subcat-li-name { font-size: 0.95rem; font-weight: 600; color: #2c1a0e; }
-    .subcat-li-price { font-size: 0.85rem; color: #c0b0a0; font-style: italic; }
-    .subcat-li-desc { font-size: 0.78rem; color: #9a8070; font-style: italic; line-height: 1.4; }
-
-    /* ── AGREGADOS ── */
-    .agregados-box {
-      margin-top: 24px;
-      padding: 16px 20px;
-      background: #f9f5f0;
-      border: 1px solid #ece5db;
-      border-radius: 16px;
-    }
-    .agregados-title {
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-size: 0.8rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: #9a8070;
-      margin-bottom: 10px;
+      color: #c8a97e;
+      margin: 30px 0 15px;
+      border-bottom: 1px solid #f0e8dc;
+      padding-bottom: 5px;
     }
-    .agregados-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+
+    .agregados-box {
+      margin-top: 30px;
+      background: #fdfaf7;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px dashed #ddd3c7;
     }
     .agregado-chip {
+      display: inline-block;
       background: #fff;
-      border: 1px solid #ddd3c7;
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: 0.78rem;
-      color: #5a3e28;
-    }
-    .agregado-chip span {
-      color: #c8a97e;
-      font-weight: 700;
-      margin-left: 4px;
-    }
-
-    /* ── NOTA ── */
-    .card-note {
-      margin-top: 32px;
-      padding: 16px 20px;
-      background: #f9f5f0;
-      border: 1px solid #ece5db;
+      padding: 4px 12px;
       border-radius: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      margin: 4px;
       font-size: 0.8rem;
-      color: #7a6a58;
-      font-weight: 500;
-    }
-    .card-note svg { width: 18px; height: 18px; color: #b0a090; flex-shrink: 0; }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.68rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #c0b0a0;
+      border: 1px solid #eee;
     }
 
-    @media (max-width: 520px) {
+    footer { text-align: center; padding: 30px; color: #b0a090; font-size: 0.7rem; letter-spacing: 2px; }
+
+    @media (max-width: 600px) {
       .items-grid { grid-template-columns: 1fr; }
-      .sub-grid   { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -323,7 +192,7 @@
 <header>
   <img src="Logo - Naranja.png" alt="Escaramuza"/>
   <div class="header-line"></div>
-  <p id="subtitle"></p>
+  <p id="subtitle">MENÚ</p>
 </header>
 
 <div id="tab-bar"></div>
@@ -333,480 +202,134 @@
 <script>
 const languages = [
   {code:'es',name:'Español',flag:'🇪🇸'},
-  {code:'en',name:'English',flag:'🇬🇧'},
-  {code:'de',name:'Deutsch',flag:'🇩🇪'},
-  {code:'ja',name:'日本語',flag:'🇯🇵'},
-  {code:'fr',name:'Français',flag:'🇫🇷'},
-  {code:'it',name:'Italiano',flag:'🇮🇹'},
-  {code:'nl',name:'Nederlands',flag:'🇳🇱'},
-  {code:'ru',name:'Русский',flag:'🇷🇺'}
+  {code:'en',name:'English',flag:'🇬🇧'}
 ];
 
 const ICONS = {
-  coffee:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v2m4-2v2m4-2v2M3 8h18l-1.5 10.5A2 2 0 0117.51 20H6.49a2 2 0 01-1.99-1.5L3 8zm15 0a3 3 0 013 3v0a3 3 0 01-3 3h-1"/></svg>`,
-  leaf:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3C7 3 3 7.5 3 12c0 3.87 2.5 7.17 6 8.48V21h6v-.52C18.5 19.17 21 15.87 21 12c0-4.5-4-9-9-9z"/></svg>`,
-  drop:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25s-7.5 8.25-7.5 12a7.5 7.5 0 0015 0c0-3.75-7.5-12-7.5-12z"/></svg>`,
-  wind:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h11a4 4 0 000-8H3m0 8v0m0 0H3m15 4H3m18 0a4 4 0 01-4 4H3"/></svg>`,
-  cake:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H5a2 2 0 01-2-2V9h18v6zM3 9V7a2 2 0 012-2h1m4-2v2m4-2v2M7 5V3m10 2V3"/></svg>`,
-  food:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v11a3 3 0 006 0V3M9 8h6M3 20h18"/></svg>`,
-  bubble:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path stroke-linecap="round" d="M9 15s1 2 3 2 3-2 3-2"/></svg>`,
-  wine:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" strokeUCCIONES ──
+  coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
+  leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 4 13V5a2 2 0 0 1 2-2h5c3.87 0 7 3.13 7 7 0 5.25-4.67 10-11 10zM11 3v17"/></svg>`,
+  drop: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`,
+  wind: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>`,
+  cake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M2 21h20M7 8V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/></svg>`,
+  food: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3v10M18 17v4M14 3v10c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V3M2 20h10M5 3v17M9 3v17"/></svg>`,
+  bubble: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="9" r="1"/><circle cx="16" cy="9" r="1"/><circle cx="12" cy="15" r="1"/></svg>`,
+  wine: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 22h8M12 11v11M7 3h10c0 4-2 8-5 8s-5-4-5-8z"/></svg>`,
+  cocktail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-12l6 10zm-6 10v10m-5 0h10"/></svg>`,
+  info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
+};
+
+const ICON_COLORS = ['#92400e','#16a34a','#2563eb','#d97706','#be123c','#b45309','#06b6d4','#b91c1c','#7c3aed'];
+
 const TR = {
   es: {
-    subtitle: "MENÚ DE BEBIDAS Y COCINA",
+    subtitle: "BEBIDAS Y COCINA",
     footer: "Precios con IVA incluido.",
     supplement: "Suplemento leche de Avena o Almendra: +0,30 €",
-    tabs: ["Cafetería","Matcha Bar","Zumos y Limonadas","Tés e Infusiones","Nuestra Cocina","Obrador y Dulce","Refrescos","Vinos y Cervezas","Bar de Autor"],
-    agregadosTitle: "+ Agregados",
-    cocktailSections: {
-      especiales: { title:"ESPECIALES", sub:"Nuestras creaciones exclusivas" },
-      clasica:    { title:"MIXOLOGÍA CLÁSICA", sub:"Referentes internacionales" },
-      largos:     { title:"TRAGOS LARGOS", sub:"Selección refrescante" },
-      vinosCervezas: { title:"VINOS & CERVEZAS", sub:"" }
-    }
+    tabs: ["Cafetería","Matcha Bar","Zumos y Limonadas","Tés","Nuestra Cocina","Obrador","Refrescos","Vinos","Bar de Autor"],
+    extras: "+ Agregados"
   },
   en: {
-    subtitle: "DRINKS & FOOD MENU",
+    subtitle: "DRINKS & FOOD",
     footer: "Prices include VAT.",
     supplement: "Oat or Almond milk supplement: +0.30 €",
-    tabs: ["Coffee Bar","Matcha Bar","Juices & Lemonades","Teas & Infusions","Our Kitchen","Bakery & Sweets","Soft Drinks","Wines & Beers","Author's Bar"],
-    agregadosTitle: "+ Add-ons",
-    cocktailSections: {
-      especiales: { title:"SPECIALS", sub:"Our exclusive creations" },
-      clasica:    { title:"CLASSIC MIXOLOGY", sub:"International references" },
-      largos:     { title:"LONG DRINKS", sub:"Refreshing selection" },
-      vinosCervezas: { title:"WINES & BEERS", sub:"" }
-    }
-  },
-  de: {
-    subtitle: "GETRÄNKE & SPEISEKARTE",
-    footer: "Preise inkl. MwSt.",
-    supplement: "Zuschlag Hafer- oder Mandelmilch: +0,30 €",
-    tabs: ["Kaffeehaus","Matcha Bar","Säfte & Limonaden","Tee & Aufgüsse","Unsere Küche","Bäckerei & Süßes","Erfrischungen","Wein & Bier","Autor-Bar"],
-    agregadosTitle: "+ Extras",
-    cocktailSections: {
-      especiales: { title:"SPECIALS", sub:"Unsere exklusiven Kreationen" },
-      clasica:    { title:"KLASSISCHE MIXOLOGIE", sub:"Internationale Referenzen" },
-      largos:     { title:"LONGDRINKS", sub:"Erfrischende Auswahl" },
-      vinosCervezas: { title:"WEINE & BIERE", sub:"" }
-    }
-  },
-  ja: {
-    subtitle: "ドリンク＆フードメニュー",
-    footer: "税込価格",
-    supplement: "オーツミルクまたはアーモンドミルク: +0.30 €",
-    tabs: ["カフェ","抹茶バー","ジュース＆レモネード","ティー","キッチン","ベーカリー","ソフトドリンク","ワイン＆ビール","バー"],
-    agregadosTitle: "+ トッピング",
-    cocktailSections: {
-      especiales: { title:"スペシャル", sub:"オリジナルカクテル" },
-      clasica:    { title:"クラシックカクテル", sub:"定番カクテル" },
-      largos:     { title:"ロングドリンク", sub:"爽やかなセレクション" },
-      vinosCervezas: { title:"ワイン＆ビール", sub:"" }
-    }
-  },
-  fr: {
-    subtitle: "MENU BOISSONS & CUISINE",
-    footer: "Prix TTC.",
-    supplement: "Lait d'avoine ou d'amande : +0,30 €",
-    tabs: ["Cafétéria","Bar à Matcha","Jus & Limonades","Thés & Infusions","Notre Cuisine","Boulangerie & Douceurs","Rafraîchissements","Vins & Bières","Bar d'Auteur"],
-    agregadosTitle: "+ Suppléments",
-    cocktailSections: {
-      especiales: { title:"SPÉCIAUX", sub:"Nos créations exclusives" },
-      clasica:    { title:"MIXOLOGIE CLASSIQUE", sub:"Références internationales" },
-      largos:     { title:"LONG DRINKS", sub:"Sélection rafraîchissante" },
-      vinosCervezas: { title:"VINS & BIÈRES", sub:"" }
-    }
-  },
-  it: {
-    subtitle: "MENU BEVANDE & CUCINA",
-    footer: "Prezzi IVA inclusa.",
-    supplement: "Latte di avena o mandorla: +0,30 €",
-    tabs: ["Caffetteria","Matcha Bar","Succhi & Limonati","Tè e Infusi","La Nostra Cucina","Forno & Dolci","Bibite","Vini e Birre","Bar d'Autore"],
-    agregadosTitle: "+ Aggiunte",
-    cocktailSections: {
-      especiales: { title:"SPECIALI", sub:"Le nostre creazioni esclusive" },
-      clasica:    { title:"MIXOLOGIA CLASSICA", sub:"Riferimenti internazionali" },
-      largos:     { title:"LONG DRINK", sub:"Selezione rinfrescante" },
-      vinosCervezas: { title:"VINI & BIRRE", sub:"" }
-    }
-  },
-  nl: {
-    subtitle: "DRANKEN & SPIJSKAART",
-    footer: "Prijzen incl. BTW.",
-    supplement: "Haver- of amandelmelk: +0,30 €",
-    tabs: ["Koffiebar","Matchabar","Sappen & Limonades","Thee & Infusies","Onze Keuken","Bakkerij & Zoet","Frisdranken","Wijn & Bier","Auteurs Bar"],
-    agregadosTitle: "+ Extra's",
-    cocktailSections: {
-      especiales: { title:"SPECIALS", sub:"Onze exclusieve creaties" },
-      clasica:    { title:"KLASSIEKE MIXOLOGIE", sub:"Internationale referenties" },
-      largos:     { title:"LONG DRINKS", sub:"Verfrissende selectie" },
-      vinosCervezas: { title:"WIJNEN & BIEREN", sub:"" }
-    }
-  },
-  ru: {
-    subtitle: "МЕНЮ НАПИТКОВ И КУХНИ",
-    footer: "Цены с НДС.",
-    supplement: "Овсяное или миндальное молоко: +0,30 €",
-    tabs: ["Кофейня","Матча-бар","Соки и Лимонады","Чай","Наша Кухня","Пекарня и Сладкое","Прохладительные","Вино и Пиво","Авторский Бар"],
-    agregadosTitle: "+ Добавки",
-    cocktailSections: {
-      especiales: { title:"АВТОРСКИЕ", sub:"Наши эксклюзивные коктейли" },
-      clasica:    { title:"КЛАССИЧЕСКАЯ МИКСОЛОГИЯ", sub:"Международные классики" },
-      largos:     { title:"ЛОНГ ДРИНК", sub:"Освежающий выбор" },
-      vinosCervezas: { title:"ВИНА И ПИВО", sub:"" }
-    }
+    tabs: ["Coffee Bar","Matcha Bar","Juices & Lemonades","Teas","Our Kitchen","Bakery","Soft Drinks","Wines","Author Bar"],
+    extras: "+ Add-ons"
   }
 };
 
-const ICON_COLORS = [
-  'color:#92400e',
-  'color:#16a34a',
-  'color:#2563eb',
-  'color:#d97706',
-  'color:#be123c',
-  'color:#b45309',
-  'color:#06b6d4',
-  'color:#b91c1c',
-  'color:#7c3aed'
-];
-
-// ── MENÚ ──
 function getMenu(lang) {
   const t = TR[lang] || TR.es;
-  const tabs = t.tabs;
-
   return [
-    // 0 CAFETERÍA
     {
-      title: tabs[0], icon: ICONS.coffee, color: ICON_COLORS[0],
+      title: t.tabs[0], icon: ICONS.coffee, color: ICON_COLORS[0],
       notes: t.supplement,
       items: [
-        {name:"Espresso Doble / Cortado", desc:"Concentrado y potente. El alma del café.",                          price:"2.80 €"},
-        {name:"Americano",                desc:"Espresso suavizado con agua caliente. Limpio y largo.",             price:"3.00 €"},
-        {name:"Flat White",               desc:"Doble espresso con leche sedosa. Intenso y cremoso.",               price:"3.20 €"},
-        {name:"Capuccino / Latte",        desc:"Espresso con leche vaporizada y espuma aterciopelada.",             price:"3.20 €"},
-        {name:"Chocolate Caliente",       desc:"Cacao puro con leche caliente. Cremoso y reconfortante.",           price:"4.00 €"},
-        {name:"Chai Latte",               desc:"Especias orientales, canela y cardamomo con leche vaporizada.",     price:"4.00 €"},
-        {name:"Cold Brew",                desc:"Café macerado 24h en frío. Suave, bajo en acidez y refrescante.",   price:"4.00 €"},
-        {name:"Iced Latte",               desc:"Espresso sobre hielo con leche fría.",                              price:"4.50 €", options:"Vainilla · Caramelo · Coco"}
+        {name: lang==='es'?"Espresso Doble":"Double Espresso", price:"2.80 €", desc: lang==='es'?"Concentrado y potente.":"Strong and concentrated."},
+        {name: "Flat White", price:"3.20 €", desc: lang==='es'?"Doble espresso con leche sedosa.":"Double espresso with silky milk."},
+        {name: "Cold Brew", price:"4.00 €", desc: lang==='es'?"Macerado 24h en frío.":"24h cold-steeped coffee."},
+        {name: "Iced Latte", price:"4.50 €", options: lang==='es'?"Vainilla · Caramelo · Coco":"Vanilla · Caramel · Coconut"}
       ]
     },
-    // 1 MATCHA
     {
-      title: tabs[1], icon: ICONS.leaf, color: ICON_COLORS[1],
-      items: [
-        {name:"Matcha Latte Clásico",     desc:"Matcha ceremonial con leche suave. Equilibrado y vegetal.",         price:"4.90 €"},
-        {name:"Iced Matcha Mango",        desc:"Matcha frío con coulis de mango tropical. Vibrante y refrescante.", price:"5.50 €"},
-        {name:"Iced Matcha Frutos Rojos", desc:"Matcha con frambuesa y frutos del bosque. Ácido y goloso.",         price:"5.50 €"},
-        {name:"Iced Matcha Coco",         desc:"Matcha con leche de coco. Suave, exótico y cremoso.",               price:"5.50 €"},
-        {name:"Iced Matcha Maracuyá",     desc:"Matcha con maracuyá. Un contraste tropical e intenso.",             price:"5.50 €"},
-        {name:"Iced Matcha Escaramuza",   desc:"Nuestra combinación estrella. Fresca, única y especial.",           price:"5.50 €"}
-      ]
-    },
-    // 2 ZUMOS Y LIMONADAS
-    {
-      title: tabs[2], icon: ICONS.drop, color: ICON_COLORS[2],
-      globalPrice: "4.00 €",
-      items: [
-        {name:"Jugo de Naranja Natural",      desc:"Naranjas exprimidas al momento. Puro y vitamínico."},
-        {name:"Limonada Clásica",             desc:"Limón natural, agua y el punto justo de dulzor."},
-        {name:"Limonada de Frambuesa",        desc:"Cítrica y frutal con un toque ácido de frambuesa fresca."},
-        {name:"Limonada de Mango",            desc:"Tropical y refrescante con pulpa de mango natural."},
-        {name:"Limonada de Coco",             desc:"Limón con leche de coco. Cremosa y sorprendente."},
-        {name:"Limonada de Maracuyá",         desc:"Intensa y aromática. El sabor del verano en un vaso."},
-        {name:"Limonada de Menta y Jengibre", desc:"Fresca y especiada. Limón, menta y jengibre en armonía."}
-      ]
-    },
-    // 3 TÉS
-    {
-      title: tabs[3], icon: ICONS.wind, color: ICON_COLORS[3],
-      globalPrice: "3.80 €",
-      subcategories: [
-        {
-          name:"GAMA NEGRA", tag:"Energía y Desayuno", dot:"dot-black",
-          profile:"Alto contenido en teína, sabores robustos y terrosos.",
-          items:[
-            {name:"English Breakfast Eco", desc:"Robusto y maltoso. El clásico del desayuno británico."},
-            {name:"Earl Grey",             desc:"Té negro con bergamota. Aromático y elegante."},
-            {name:"Chai Negro",            desc:"Especias, canela y pimienta. Intenso y reconfortante."}
-          ]
-        },
-        {
-          name:"GAMA VERDE Y BLANCA", tag:"Antioxidante y Ligereza", dot:"dot-green",
-          profile:"Teína moderada/baja, sabores florales y frescos.",
-          items:[
-            {name:"Té Verde Jazmín",    desc:"Delicado y floral. Perfumado con flores de jazmín."},
-            {name:"Té Verde Sakura",    desc:"Suave y primaveral. Notas florales de cerezo japonés."},
-            {name:"Té Blanco Seda",     desc:"Muy suave y dulce. El más delicado de nuestra carta."},
-            {name:"Noches de Toronto",  desc:"Mezcla exclusiva. Fresco, frutal y envolvente."},
-            {name:"Silueta",            desc:"Blend depurativo. Ligero y equilibrado."}
-          ]
-        },
-        {
-          name:"GAMA DORADA", tag:"Bienestar y Digestión", dot:"dot-gold",
-          profile:"Sin teína. Cítricos y medicinales.",
-          items:[
-            {name:"Manzanilla",          desc:"Clásica y suave. Digestiva y relajante."},
-            {name:"Jengibre y Limón",    desc:"Estimulante y cítrica. Perfecta para activar el cuerpo."},
-            {name:"Jengibre y Cúrcuma",  desc:"Antiinflamatoria y potente. Cálida y especiada."},
-            {name:"Infusión Inmunidad",  desc:"Blend de hierbas para reforzar las defensas."},
-            {name:"Infusión Depurativa", desc:"Limpia y ligera. Ideal después de las comidas."},
-            {name:"Chai Digestivo",      desc:"Especias suaves y cúrcuma. Reconfortante y saludable."}
-          ]
-        },
-        {
-          name:"GAMA ÁMBAR Y FLORAL", tag:"Relajación", dot:"dot-amber",
-          profile:"Sin teína. Dulces y cálidos.",
-          items:[
-            {name:"Rooibos Clásico / Noches", desc:"Sin teína. Dulce y afrutado. Perfecto para la noche."},
-            {name:"Lavanda",                  desc:"Floral y relajante. El abrazo perfecto antes de dormir."}
-          ]
-        }
-      ]
-    },
-    // 4 NUESTRA COCINA
-    {
-      title: tabs[4], icon: ICONS.food, color: ICON_COLORS[4],
+      title: t.tabs[4], icon: ICONS.food, color: ICON_COLORS[4],
       flatSections: [
         {
-          title: "Platos & Tostas",
+          title: lang==='es'?"Nuestra Cocina":"Our Kitchen",
           items: [
-            {name:"French Toast",         desc:"Brioche con frutos rojos, banana y helado.",                                                          price:"9.50 €"},
-            {name:"Oro Ibérico",          desc:"Jamón y kaki sobre ricotta, nueces, cebolla caramelizada y miel.",                                    price:"13.90 €"},
-            {name:"Benedictos",           desc:"Huevos con salsa holandesa, aguacate, cebolla, rábanos y brotes.",                                    price:"11.50 €"},
-            {name:"Champiñones",          desc:"Champiñones salteados, burrata cremosa, cebolla caramelizada y piñones.",                             price:"10.50 €"},
-            {name:"Salmón",               desc:"Salmón ahumado, aguacate con vinagreta de la casa y brotes.",                                         price:"13.50 €"},
-            {name:"Aguacate",             desc:"Aguacate, huevo, tomate cherry, rábano y sésamo sobre queso crema.",                                  price:"9.50 €"},
-            {name:"Milanesa",             desc:"Tierna milanesa de ternera (corte babilla) rebozada y dorada, acompañada con patatas.",               price:"13.90 €"},
-            {name:"Tosta de Tomate",      desc:"Tomate fresco, aceite de oliva, brotes y albahaca.",                                                  price:"3.80 €"},
-            {name:"Tosta Queso y Miel",   desc:"Combinación de queso, nueces crujientes y miel.",                                                     price:"6.50 €"}
+            {name: lang==='es'?"Milanesa de Babilla":"Sirloin Tip Milanesa", price:"13.90 €", desc: lang==='es'?"Tierna ternera rebozada con patatas.":"Tender breaded beef served with fries."},
+            {name: lang==='es'?"Oro Ibérico":"Iberian Gold", price:"13.90 €", desc: lang==='es'?"Jamón y kaki sobre ricotta y miel.":"Iberian ham & persimmon with honey."},
+            {name: "Benedictos", price:"11.50 €", desc: lang==='es'?"Huevos con salsa holandesa.":"Eggs with hollandaise sauce."}
           ]
         }
       ],
-      agregados: [
-        {name:"Huevo",       price:"1.50 €"},
-        {name:"Jamón",       price:"2.00 €"},
-        {name:"Aguacate",    price:"2.50 €"},
-        {name:"Salmón",      price:"4.50 €"},
-        {name:"Champiñones", price:"1.50 €"},
-        {name:"Tomate",      price:"1.00 €"}
-      ],
-      agregadosTitle: t.agregadosTitle
+      agregados: [{name:lang==='es'?"Huevo":"Egg", price:"1.50 €"}, {name:lang==='es'?"Aguacate":"Avocado", price:"2.50 €"}],
+      agregadosTitle: t.extras
     },
-    // 5 OBRADOR Y DULCE
     {
-      title: tabs[5], icon: ICONS.cake, color: ICON_COLORS[5],
+      title: t.tabs[5], icon: ICONS.cake, color: ICON_COLORS[5],
       items: [
-        {name:"Cinnamon Roll",              desc:"Esponjoso y recién horneado.",                                          price:"4.50 €", options:"Nueces · Frutos Rojos · Lotus"},
-        {name:"Cookie",                     desc:"Crujiente por fuera, tierna por dentro.",                               price:"2.80 €", options:"Chispas de Chocolate · Lotus"},
-        {name:"Carrot Cake",                desc:"Bizcocho húmedo de zanahoria con frosting de queso crema.",             price:"4.50 €"},
-        {name:"Banana Bread",               desc:"Bizcocho esponjoso de plátano, jugoso y natural.",                      price:"3.80 €"},
-        {name:"Tarta de Queso con Brownie", desc:"Cremosa tarta de queso sobre base de brownie de chocolate.",            price:"4.90 €"},
-        {name:"Croissant de Almendras",     desc:"Hojaldre crujiente relleno de crema de almendra.",                      price:"3.50 €"},
-        {name:"Alfajor",                    desc:"Clásico argentino de maicena, dulce de leche y coco.",                  price:"2.50 €"}
-      ]
-    },
-    // 6 REFRESCOS
-    {
-      title: tabs[6], icon: ICONS.bubble, color: ICON_COLORS[6],
-      globalPrice: "3.00 €",
-      items: [
-        {name:"Coca-Cola",   desc:"Normal o Zero. Bien fría."},
-        {name:"Fanta",       desc:""},
-        {name:"Nestea",      desc:""},
-        {name:"7up",         desc:""},
-        {name:"Tónica",      desc:""},
-        {name:"Energizante", desc:""},
-        {name:"Agua",        desc:"Con o sin gas."}
-      ]
-    },
-    // 7 VINOS Y CERVEZAS
-    {
-      title: tabs[7], icon: ICONS.wine, color: ICON_COLORS[7],
-      items: [
-        {name:"Cerveza Estrella Galicia", desc:"Especial o 0.0 Tostada.",                           price:"4.00 €"},
-        {name:"Copa de Vino Blanco",      desc:"Selección disponible en Seco o Dulce.",              price:"4.00 €"},
-        {name:"Copa de Vino Tinto",       desc:"Selección de la casa con cuerpo y carácter.",        price:"6.00 €"},
-        {name:"Tinto de Verano",          desc:"Tinto de la casa con refrescos y cítricos.",         price:"4.00 €"}
-      ]
-    },
-    // 8 BAR DE AUTOR
-    {
-      title: tabs[8], icon: ICONS.cocktail, color: ICON_COLORS[8],
-      cocktailSections: [
-        {
-          key: "especiales",
-          price: "10 €",
-          items: [
-            {name:"Espresso Martini",    desc:"Doble shot de café, vodka premium y licor artesano.",              price:"11 €"},
-            {name:"Piña Colada",         desc:"Ron blanco, coco, piña y un toque de lima. Suave y tropical.",     price:"10 €"},
-            {name:"Mango Gin Fizz",      desc:"Gin infusionado con mango, limón y soda fresca. Frutado y seco.",  price:"10 €"},
-            {name:"Escaramuza Cocktail", desc:"Gin con vermouth blanco, limón y soda. Ligero y refrescante.",     price:"10 €"}
-          ]
-        },
-        {
-          key: "clasica",
-          price: "9 € / 10 €",
-          items: [
-            {name:"Moscow Mule",   desc:"Vodka, lima y ginger beer. Perfil cítrico y picante.",                    price:"10 €"},
-            {name:"Aperol Spritz", desc:"Aperol, Prosecco, soda y rodaja de naranja.",                             price:"9 €"},
-            {name:"Fernet con Cola",desc:"El serve rioplatense por excelencia. Amargo e intenso.",                 price:"9 €"},
-            {name:"Campari Spritz",desc:"Aperitivo italiano con notas amargas y burbuja fina.",                    price:"9 €"},
-            {name:"Cuba Libre",    desc:"Ron añejo con cola y un toque de lima fresca.",                           price:"9 €"}
-          ]
-        },
-        {
-          key: "largos",
-          price: "9 €",
-          items: [
-            {name:"Tequila Sunrise", desc:"Tequila reposado, naranja natural y granadina.",                       price:"9 €"},
-            {name:"Vodka Sunrise",   desc:"Vodka premium, naranja natural y granadina.",                          price:"9 €"},
-            {name:"Gin Cítrico",     desc:"Ginebra equilibrada con cítricos frescos de temporada.",               price:"9 €"}
-          ]
-        }
+        {name: "Cinnamon Roll", price:"4.50 €", options: "Lotus · Nut · Red Berries"},
+        {name: lang==='es'?"Tarta de Queso con Brownie":"Brownie Cheesecake", price:"4.90 €"},
+        {name: "Carrot Cake", price:"4.50 €"}
       ]
     }
   ];
 }
 
 let currentLang = 'es';
-let currentTab  = 0;
-
-function renderLangBar() {
-  document.getElementById('lang-bar').innerHTML = languages.map(l => `
-    <button class="lang-btn ${l.code===currentLang?'active':''}" onclick="changeLang('${l.code}')">
-      <span>${l.flag}</span><span>${l.name}</span>
-    </button>`).join('');
-}
-
-function renderHeader() {
-  document.getElementById('subtitle').textContent = (TR[currentLang]||TR.es).subtitle;
-}
-
-function renderTabs() {
-  const menu = getMenu(currentLang);
-  document.getElementById('tab-bar').innerHTML = menu.map((cat,idx) => `
-    <button class="tab-btn ${idx===currentTab?'active':''}" onclick="changeTab(${idx})" style="${ICON_COLORS[idx]}">
-      ${cat.icon} ${cat.title}
-    </button>`).join('');
-}
-
-function itemHTML(it, globalPrice) {
-  const price = it.price || globalPrice || '';
-  return `
-    <div class="menu-item">
-      <div class="menu-item-top">
-        <span class="menu-item-name">${it.name}</span>
-        <span class="menu-item-price">${price}</span>
-      </div>
-      ${it.desc ? `<span class="menu-item-desc">${it.desc}</span>` : ''}
-      ${it.options ? `<span class="menu-item-options">● ${it.options}</span>` : ''}
-    </div>`;
-}
-
-function renderCard() {
-  const menu = getMenu(currentLang);
-  const cat  = menu[currentTab];
-  const t    = TR[currentLang] || TR.es;
-  let bodyHTML = '';
-
-  // BAR DE AUTOR
-  if (cat.cocktailSections) {
-    bodyHTML = cat.cocktailSections.map(sec => {
-      const info = t.cocktailSections[sec.key] || {title: sec.key, sub:''};
-      return `
-        <div class="cocktail-section">
-          <div class="cocktail-section-header">
-            <span class="cocktail-section-title">${info.title}</span>
-            ${info.sub ? `<span class="cocktail-section-subtitle">— ${info.sub} — ${sec.price}</span>` : ''}
-          </div>
-          <div class="items-grid">
-            ${sec.items.map(it => itemHTML(it)).join('')}
-          </div>
-        </div>`;
-    }).join('');
-
-  // TÉS
-  } else if (cat.subcategories) {
-    bodyHTML = `<div class="sub-grid">${cat.subcategories.map(sub => `
-      <div class="subcat">
-        <div class="subcat-header">
-          <div class="subcat-dot ${sub.dot}"></div>
-          <div>
-            <div class="subcat-name">${sub.name}</div>
-            <div class="subcat-tag">${sub.tag}</div>
-          </div>
-        </div>
-        <div class="subcat-profile">${sub.profile}</div>
-        <ul>${sub.items.map(it => `
-          <li>
-            <div class="subcat-li-top">
-              <span class="subcat-li-name">${it.name}</span>
-              <span class="subcat-li-price">${cat.globalPrice}</span>
-            </div>
-            ${it.desc ? `<span class="subcat-li-desc">${it.desc}</span>` : ''}
-          </li>`).join('')}
-        </ul>
-      </div>`).join('')}
-    </div>`;
-
-  // NUESTRA COCINA (secciones planas)
-  } else if (cat.flatSections) {
-    bodyHTML = cat.flatSections.map(sec => `
-      <div class="section-block">
-        <div class="items-grid">
-          ${sec.items.map(it => itemHTML(it)).join('')}
-        </div>
-      </div>`).join('');
-
-    if (cat.agregados) {
-      bodyHTML += `
-        <div class="agregados-box">
-          <div class="agregados-title">${cat.agregadosTitle}</div>
-          <div class="agregados-list">
-            ${cat.agregados.map(a => `
-              <div class="agregado-chip">${a.name}<span>${a.price}</span></div>`).join('')}
-          </div>
-        </div>`;
-    }
-
-  // ITEMS NORMALES
-  } else {
-    bodyHTML = `<div class="items-grid">
-      ${cat.items.map(it => itemHTML(it, cat.globalPrice)).join('')}
-    </div>`;
-  }
-
-  const priceHTML = (cat.globalPrice && !cat.subcategories)
-    ? `<span class="card-price-global">${cat.globalPrice}</span>` : '';
-
-  const noteHTML = cat.notes
-    ? `<div class="card-note">${ICONS.info}<p>${cat.notes}</p></div>` : '';
-
-  document.getElementById('card-inner').innerHTML = `
-    <div class="card-header">
-      <div class="card-title" style="${ICON_COLORS[currentTab]}">${cat.icon} ${cat.title}</div>
-      ${priceHTML}
-    </div>
-    ${bodyHTML}
-    ${noteHTML}`;
-}
-
-function renderFooter() {
-  document.getElementById('footer-text').textContent =
-    `© ${new Date().getFullYear()} Escaramuza Coffee Bar · ${(TR[currentLang]||TR.es).footer}`;
-}
+let currentTab = 0;
 
 function render() {
-  renderLangBar();
-  renderHeader();
-  renderTabs();
-  renderCard();
-  renderFooter();
+  const t = TR[currentLang] || TR.es;
+  const menu = getMenu(currentLang);
+  const cat = menu[currentTab] || menu[0];
+
+  // Render Lang Bar
+  document.getElementById('lang-bar').innerHTML = languages.map(l => 
+    `<button class="lang-btn ${l.code===currentLang?'active':''}" onclick="changeLang('${l.code}')">${l.flag} ${l.name}</button>`
+  ).join('');
+
+  // Render Tabs
+  document.getElementById('tab-bar').innerHTML = menu.map((c, i) => 
+    `<button class="tab-btn ${i===currentTab?'active':''}" onclick="changeTab(${i})" style="color:${c.color}">${c.icon} ${c.title}</button>`
+  ).join('');
+
+  // Render Card
+  let bodyHTML = '';
+  if (cat.flatSections) {
+    bodyHTML = cat.flatSections.map(sec => `
+      <div class="section-block-title">${sec.title}</div>
+      <div class="items-grid">${sec.items.map(it => `
+        <div class="menu-item">
+          <div class="menu-item-top"><span>${it.name}</span><span>${it.price}</span></div>
+          <div class="menu-item-desc">${it.desc || ''}</div>
+        </div>`).join('')}</div>
+    `).join('');
+    if (cat.agregados) {
+      bodyHTML += `<div class="agregados-box"><div class="section-block-title" style="margin-top:0">${cat.agregadosTitle}</div>` + 
+        cat.agregados.map(a => `<span class="agregado-chip">${a.name} <b>${a.price}</b></span>`).join('') + `</div>`;
+    }
+  } else {
+    bodyHTML = `<div class="items-grid">${cat.items.map(it => `
+      <div class="menu-item">
+        <div class="menu-item-top"><span>${it.name}</span><span>${it.price}</span></div>
+        <div class="menu-item-desc">${it.desc || ''}</div>
+        ${it.options ? `<div class="menu-item-options">● ${it.options}</div>` : ''}
+      </div>`).join('')}</div>`;
+  }
+
+  document.getElementById('card-inner').innerHTML = `
+    <div class="card-header"><div class="card-title" style="color:${cat.color}">${cat.icon} ${cat.title}</div></div>
+    ${bodyHTML}
+    ${cat.notes ? `<div style="margin-top:20px; font-size:0.8rem; color:#9a7d5e">${ICONS.info} ${cat.notes}</div>` : ''}
+  `;
+
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('footer-text').textContent = `© ${new Date().getFullYear()} Escaramuza Coffee Bar · ${t.footer}`;
 }
 
-function changeLang(code) { currentLang = code; currentTab = 0; render(); }
-function changeTab(idx)   { currentTab = idx; renderTabs(); renderCard(); }
+function changeLang(code) { currentLang = code; render(); }
+function changeTab(idx) { currentTab = idx; render(); }
 
 render();
 </script>
