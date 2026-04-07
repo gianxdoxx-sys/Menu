@@ -49,12 +49,13 @@
       padding: 40px 20px 28px;
     }
 
-    header h1 {
-      font-size: clamp(2.2rem, 7vw, 3.5rem);
-      font-weight: 300;
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      color: #2c1a0e;
+    header img {
+      max-width: 320px;
+      width: 80%;
+      margin-bottom: 16px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .header-line {
@@ -281,31 +282,23 @@
 </head>
 <body>
 
-<!-- SELECTOR DE IDIOMA -->
 <div id="lang-bar"></div>
 
-<!-- CABECERA -->
 <header>
-  <h1>Escaramuza</h1>
+  <img src="Logo - Naranja.png" alt="Escaramuza"/>
   <div class="header-line"></div>
   <p id="subtitle"></p>
 </header>
 
-<!-- PESTAÑAS -->
 <div id="tab-bar"></div>
 
-<!-- TARJETA MENÚ -->
 <div id="menu-card">
   <div class="card-inner" id="card-inner"></div>
 </div>
 
-<!-- PIE -->
 <footer id="footer-text"></footer>
 
 <script>
-// ════════════════════════════════════════
-//  DATOS
-// ════════════════════════════════════════
 const languages = [
   { code:'es', name:'Español',    flag:'🇪🇸' },
   { code:'en', name:'English',    flag:'🇬🇧' },
@@ -536,18 +529,15 @@ const T = {
   }
 };
 
-// ════════════════════════════════════════
-//  ICONOS SVG inline
-// ════════════════════════════════════════
 const ICONS = {
-  coffee: `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v2m4-2v2m4-2v2M3 8h18l-1.5 10.5A2 2 0 0117.51 20H6.49a2 2 0 01-1.99-1.5L3 8zm15 0a3 3 0 013 3v0a3 3 0 01-3 3h-1"/></svg>`,
-  leaf:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3C7 3 3 7.5 3 12c0 3.87 2.5 7.17 6 8.48V21h6v-.52C18.5 19.17 21 15.87 21 12c0-4.5-4-9-9-9z"/></svg>`,
-  drop:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25s-7.5 8.25-7.5 12a7.5 7.5 0 0015 0c0-3.75-7.5-12-7.5-12z"/></svg>`,
-  wind:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h11a4 4 0 000-8H3m0 8v0m0 0H3m15 4H3m18 0a4 4 0 01-4 4H3"/></svg>`,
-  ice:    `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>`,
-  bubble: `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path stroke-linecap="round" d="M9 15s1 2 3 2 3-2 3-2"/></svg>`,
-  wine:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l1 7a5 5 0 01-10 0L8 3zM12 15v6M9 21h6"/></svg>`,
-  info:   `<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v.01M12 11v5"/></svg>`
+  coffee:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v2m4-2v2m4-2v2M3 8h18l-1.5 10.5A2 2 0 0117.51 20H6.49a2 2 0 01-1.99-1.5L3 8zm15 0a3 3 0 013 3v0a3 3 0 01-3 3h-1"/></svg>`,
+  leaf:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3C7 3 3 7.5 3 12c0 3.87 2.5 7.17 6 8.48V21h6v-.52C18.5 19.17 21 15.87 21 12c0-4.5-4-9-9-9z"/></svg>`,
+  drop:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25s-7.5 8.25-7.5 12a7.5 7.5 0 0015 0c0-3.75-7.5-12-7.5-12z"/></svg>`,
+  wind:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h11a4 4 0 000-8H3m0 8v0m0 0H3m15 4H3m18 0a4 4 0 01-4 4H3"/></svg>`,
+  ice:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6L5.6 18.4"/></svg>`,
+  bubble:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path stroke-linecap="round" d="M9 15s1 2 3 2 3-2 3-2"/></svg>`,
+  wine:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l1 7a5 5 0 01-10 0L8 3zM12 15v6M9 21h6"/></svg>`,
+  info:`<svg xmlns="[w3.org](http://www.w3.org/2000/svg)" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v.01M12 11v5"/></svg>`
 };
 
 const ICON_COLORS = [
@@ -555,9 +545,6 @@ const ICON_COLORS = [
   'color:#d97706','color:#3b82f6','color:#06b6d4','color:#b91c1c'
 ];
 
-// ════════════════════════════════════════
-//  CONSTRUCCIÓN DEL MENÚ
-// ════════════════════════════════════════
 function getMenu(lang) {
   const t = T[lang];
   const i = (k) => t.items[k] || k;
@@ -566,83 +553,75 @@ function getMenu(lang) {
       title: t.categories[0], icon: ICONS.coffee, color: ICON_COLORS[0],
       notes: t.supplement,
       items: [
-        {name: i("Espresso Doble / Cortado"), price:"2.80 €"},
-        {name: i("Americano"),                price:"3.00 €"},
-        {name: i("Flat White"),               price:"3.20 €"},
-        {name: i("Capuccino / Latte"),        price:"3.20 €"},
-        {name: i("Chocolate Caliente"),       price:"4.00 €"},
-        {name: i("Chai Latte"),               price:"4.00 €"}
+        {name:i("Espresso Doble / Cortado"),price:"2.80 €"},
+        {name:i("Americano"),price:"3.00 €"},
+        {name:i("Flat White"),price:"3.20 €"},
+        {name:i("Capuccino / Latte"),price:"3.20 €"},
+        {name:i("Chocolate Caliente"),price:"4.00 €"},
+        {name:i("Chai Latte"),price:"4.00 €"}
       ]
     },
     {
       title: t.categories[1], icon: ICONS.leaf, color: ICON_COLORS[1],
       items: [
-        {name: i("Matcha Latte Clásico"),      price:"4.90 €"},
-        {name: i("Iced Matcha Mango"),         price:"5.50 €"},
-        {name: i("Iced Matcha Frutos Rojos"),  price:"5.50 €"},
-        {name: i("Iced Matcha Coco"),          price:"5.50 €"},
-        {name: i("Iced Matcha Maracuyá"),      price:"5.50 €"},
-        {name: i("Iced Matcha Escaramuza"),    price:"5.50 €"}
+        {name:i("Matcha Latte Clásico"),price:"4.90 €"},
+        {name:i("Iced Matcha Mango"),price:"5.50 €"},
+        {name:i("Iced Matcha Frutos Rojos"),price:"5.50 €"},
+        {name:i("Iced Matcha Coco"),price:"5.50 €"},
+        {name:i("Iced Matcha Maracuyá"),price:"5.50 €"},
+        {name:i("Iced Matcha Escaramuza"),price:"5.50 €"}
       ]
     },
     {
       title: t.categories[2], icon: ICONS.drop, color: ICON_COLORS[2],
-      globalPrice: "4.00 €",
-      simpleItems: [
-        i("Limonada Clásica"), i("Limonada de Frambuesa"), i("Limonada de Mango"),
-        i("Limonada de Coco"), i("Limonada de Maracuyá"), i("Limonada de Menta y Jengibre")
+      globalPrice:"4.00 €",
+      simpleItems:[
+        i("Limonada Clásica"),i("Limonada de Frambuesa"),i("Limonada de Mango"),
+        i("Limonada de Coco"),i("Limonada de Maracuyá"),i("Limonada de Menta y Jengibre")
       ]
     },
     {
       title: t.categories[3], icon: ICONS.wind, color: ICON_COLORS[3],
-      globalPrice: "3.80 €",
-      subcategories: [
-        { name: t.gamas.black.name, tag: t.gamas.black.tag, dot:"dot-black", profile: t.gamas.black.profile,
-          items:["Té Negro English Breakfast Eco","Té Negro Earl Grey","Té Negro Chai"] },
-        { name: t.gamas.green.name, tag: t.gamas.green.tag, dot:"dot-green", profile: t.gamas.green.profile,
-          items:["Té Verde Jazmín","Té Verde Sakura","Té Blanco Seda","Té Blanco y Verde Noches de Toronto","Té Rojo y Verde Silueta"] },
-        { name: t.gamas.gold.name,  tag: t.gamas.gold.tag,  dot:"dot-gold",  profile: t.gamas.gold.profile,
-          items:["Manzanilla", i("Jengibre y Limón"),"Jengibre y Cúrcuma","Infusión Inmunidad","Infusión Depurativa","Chai Digestivo"] },
-        { name: t.gamas.amber.name, tag: t.gamas.amber.tag, dot:"dot-amber", profile: t.gamas.amber.profile,
-          items:["Rooibos Clásico / Noches", i("Lavanda")] }
+      globalPrice:"3.80 €",
+      subcategories:[
+        {name:t.gamas.black.name,tag:t.gamas.black.tag,dot:"dot-black",profile:t.gamas.black.profile,
+          items:["Té Negro English Breakfast Eco","Té Negro Earl Grey","Té Negro Chai"]},
+        {name:t.gamas.green.name,tag:t.gamas.green.tag,dot:"dot-green",profile:t.gamas.green.profile,
+          items:["Té Verde Jazmín","Té Verde Sakura","Té Blanco Seda","Té Blanco y Verde Noches de Toronto","Té Rojo y Verde Silueta"]},
+        {name:t.gamas.gold.name,tag:t.gamas.gold.tag,dot:"dot-gold",profile:t.gamas.gold.profile,
+          items:["Manzanilla",i("Jengibre y Limón"),"Jengibre y Cúrcuma","Infusión Inmunidad","Infusión Depurativa","Chai Digestivo"]},
+        {name:t.gamas.amber.name,tag:t.gamas.amber.tag,dot:"dot-amber",profile:t.gamas.amber.profile,
+          items:["Rooibos Clásico / Noches",i("Lavanda")]}
       ]
     },
     {
       title: t.categories[4], icon: ICONS.ice, color: ICON_COLORS[4],
-      globalPrice: "4.00 €",
-      simpleItems: [i("Cold Brew Puro"), i("Iced Latte"), i("Jugo de Naranja Natural")]
+      globalPrice:"4.00 €",
+      simpleItems:[i("Cold Brew Puro"),i("Iced Latte"),i("Jugo de Naranja Natural")]
     },
     {
       title: t.categories[5], icon: ICONS.bubble, color: ICON_COLORS[5],
-      globalPrice: "3.00 €",
-      simpleItems: [i("Coca-Cola"),"Fanta","Nestea","7up","Tónica","Energizante", i("Agua")]
+      globalPrice:"3.00 €",
+      simpleItems:[i("Coca-Cola"),"Fanta","Nestea","7up","Tónica","Energizante",i("Agua")]
     },
     {
       title: t.categories[6], icon: ICONS.wine, color: ICON_COLORS[6],
-      items: [
-        {name: i("Cerveza"),         price:"S.M."},
-        {name: i("Tinto de Verano"), price:"S.M."},
-        {name: i("Vino Blanco"),     price:"S.M."},
-        {name: i("Vino Tinto"),      price:"S.M."}
+      items:[
+        {name:i("Cerveza"),price:"S.M."},
+        {name:i("Tinto de Verano"),price:"S.M."},
+        {name:i("Vino Blanco"),price:"S.M."},
+        {name:i("Vino Tinto"),price:"S.M."}
       ]
     }
   ];
 }
 
-// ════════════════════════════════════════
-//  ESTADO
-// ════════════════════════════════════════
 let currentLang = 'es';
 let currentTab  = 0;
 
-// ════════════════════════════════════════
-//  RENDER
-// ════════════════════════════════════════
 function renderLangBar() {
-  const bar = document.getElementById('lang-bar');
-  bar.innerHTML = languages.map(l => `
-    <button class="lang-btn ${l.code === currentLang ? 'active' : ''}"
-            onclick="changeLang('${l.code}')">
+  document.getElementById('lang-bar').innerHTML = languages.map(l => `
+    <button class="lang-btn ${l.code===currentLang?'active':''}" onclick="changeLang('${l.code}')">
       <span>${l.flag}</span><span>${l.name}</span>
     </button>`).join('');
 }
@@ -653,12 +632,9 @@ function renderHeader() {
 
 function renderTabs() {
   const menu = getMenu(currentLang);
-  const iconSVGs = [ICONS.coffee, ICONS.leaf, ICONS.drop, ICONS.wind, ICONS.ice, ICONS.bubble, ICONS.wine];
-  document.getElementById('tab-bar').innerHTML = menu.map((cat, idx) => `
-    <button class="tab-btn ${idx === currentTab ? 'active' : ''}"
-            onclick="changeTab(${idx})" style="${ICON_COLORS[idx]}">
-      ${iconSVGs[idx]}
-      ${cat.title}
+  document.getElementById('tab-bar').innerHTML = menu.map((cat,idx) => `
+    <button class="tab-btn ${idx===currentTab?'active':''}" onclick="changeTab(${idx})" style="${ICON_COLORS[idx]}">
+      ${cat.icon} ${cat.title}
     </button>`).join('');
 }
 
@@ -667,13 +643,11 @@ function renderCard() {
   const cat  = menu[currentTab];
   const card = document.getElementById('card-inner');
 
-  let priceHTML = cat.globalPrice
-    ? `<span class="card-price-global">${cat.globalPrice}</span>` : '';
-
-  let bodyHTML = '';
+  let priceHTML = cat.globalPrice ? `<span class="card-price-global">${cat.globalPrice}</span>` : '';
+  let bodyHTML  = '';
 
   if (cat.subcategories) {
-    bodyHTML = `<div class="sub-grid">${cat.subcategories.map(sub => `
+    bodyHTML = `<div class="sub-grid">${cat.subcategories.map(sub=>`
       <div class="subcat">
         <div class="subcat-header">
           <div class="subcat-dot ${sub.dot}"></div>
@@ -683,22 +657,20 @@ function renderCard() {
           </div>
         </div>
         <div class="subcat-profile">${sub.profile}</div>
-        <ul>${sub.items.map(it => `
+        <ul>${sub.items.map(it=>`
           <li><span>${it}</span><span class="p">${cat.globalPrice}</span></li>`).join('')}
         </ul>
       </div>`).join('')}
     </div>`;
-
   } else if (cat.simpleItems) {
-    bodyHTML = `<div class="items-grid">${cat.simpleItems.map(name => `
+    bodyHTML = `<div class="items-grid">${cat.simpleItems.map(name=>`
       <div class="menu-item">
         <span class="menu-item-name">${name}</span>
         <span class="menu-item-price">${cat.globalPrice}</span>
       </div>`).join('')}
     </div>`;
-
   } else {
-    bodyHTML = `<div class="items-grid">${cat.items.map(it => `
+    bodyHTML = `<div class="items-grid">${cat.items.map(it=>`
       <div class="menu-item">
         <span class="menu-item-name">${it.name}</span>
         <span class="menu-item-price">${it.price}</span>
@@ -707,16 +679,11 @@ function renderCard() {
   }
 
   const noteHTML = cat.notes ? `
-    <div class="card-note">
-      ${ICONS.info}
-      <p>${cat.notes}</p>
-    </div>` : '';
+    <div class="card-note">${ICONS.info}<p>${cat.notes}</p></div>` : '';
 
   card.innerHTML = `
     <div class="card-header">
-      <div class="card-title" style="${ICON_COLORS[currentTab]}">
-        ${cat.icon} ${cat.title}
-      </div>
+      <div class="card-title" style="${ICON_COLORS[currentTab]}">${cat.icon} ${cat.title}</div>
       ${priceHTML}
     </div>
     ${bodyHTML}
@@ -736,24 +703,9 @@ function render() {
   renderFooter();
 }
 
-// ════════════════════════════════════════
-//  EVENTOS
-// ════════════════════════════════════════
-function changeLang(code) {
-  currentLang = code;
-  currentTab  = 0;
-  render();
-}
+function changeLang(code) { currentLang=code; currentTab=0; render(); }
+function changeTab(idx)   { currentTab=idx; renderTabs(); renderCard(); }
 
-function changeTab(idx) {
-  currentTab = idx;
-  renderTabs();
-  renderCard();
-}
-
-// ════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════
 render();
 </script>
 </body>
