@@ -3,29 +3,34 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Escaramuza – Menú Interactivo</title>
+  <title>Escaramuza – Menú</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
   <style>
+    /* Reset and base styles */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Georgia', serif;
-      background: #f9f6f1;
+      background: #f5ca1a; /* Background color from uploaded brand image */
       color: #2c1a0e;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Barra de Idiomas */
+    /* Language bar styling */
     #lang-bar {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 8px;
       padding: 16px;
-      background: #fff;
-      border-bottom: 1px solid #e8e0d5;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(232, 224, 213, 0.5);
+      backdrop-filter: blur(5px);
     }
     .lang-btn {
       display: flex;
@@ -33,23 +38,26 @@
       gap: 6px;
       padding: 7px 14px;
       border-radius: 12px;
-      border: 1px solid #f0e8dc;
+      border: none;
       cursor: pointer;
       font-size: 0.82rem;
       font-weight: 600;
-      background: #f5f0ea;
+      background: #fff;
       color: #5a3e28;
       transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-    .lang-btn.active { background: #2c1a0e; color: #fff; border-color: #2c1a0e; }
+    .lang-btn:hover { background: #f9f6f1; }
+    .lang-btn.active { background: #2c1a0e; color: #fff; box-shadow: none; }
 
+    /* Header and logo styling */
     header {
       text-align: center;
       padding: 40px 20px 28px;
     }
     header img {
-      max-width: 280px;
-      width: 70%;
+      max-width: 320px;
+      width: 80%;
       margin: 0 auto 16px;
       display: block;
     }
@@ -59,48 +67,46 @@
       margin: 12px auto;
     }
     header p {
-      font-size: 0.75rem;
-      letter-spacing: 3px;
-      color: #9a7d5e;
-      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 4px;
+      color: #7a6a58;
+      font-style: italic;
     }
 
-    /* Barra de Categorías */
+    /* Tab bar styling for categories */
     #tab-bar {
       display: flex;
-      overflow-x: auto;
-      justify-content: flex-start;
-      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
       padding: 0 16px 24px;
-      max-width: 1000px;
+      max-width: 960px;
       margin: 0 auto;
-      scrollbar-width: none; /* Firefox */
     }
-    #tab-bar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-
     .tab-btn {
-      flex: 0 0 auto;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
+      gap: 6px;
+      padding: 9px 18px;
       border-radius: 999px;
-      border: 1.5px solid #ddd3c7;
+      border: 1.5px solid rgba(221, 211, 199, 0.8);
       background: #fff;
       color: #7a6050;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s;
+      font-family: Georgia, serif;
     }
-    .tab-btn svg { width: 18px; height: 18px; }
+    .tab-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .tab-btn:hover { background: #f9f6f1; }
     .tab-btn.active {
       background: #2c1a0e; color: #fff;
       border-color: #2c1a0e;
-      box-shadow: 0 4px 12px rgba(44,26,14,0.15);
+      box-shadow: 0 4px 14px rgba(44,26,14,0.18);
     }
 
-    /* Carta del Menú */
+    /* Main menu card styling with white interior */
     #menu-card {
       max-width: 900px;
       margin: 0 auto 48px;
@@ -108,80 +114,294 @@
     }
     .card-inner {
       background: #fff;
-      border-radius: 24px;
-      border: 1px solid #ece5db;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-      padding: 24px;
+      border-radius: 32px;
+      border: 1px solid rgba(236, 229, 219, 0.8);
+      box-shadow: 0 8px 40px rgba(44,26,14,0.07);
+      padding: clamp(24px, 6vw, 56px);
+      min-height: 480px;
     }
+    
+    /* Card header styling (category title) */
     .card-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #f3ede5;
-      padding-bottom: 20px;
-      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(243, 237, 229, 0.8);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
     }
     .card-title {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.5rem;
+      gap: 14px;
+      font-family: 'Instrument Serif', serif; /* Use custom font for title */
+      font-size: clamp(2.2rem, 6vw, 3.2rem);
       font-weight: 400;
+      color: #2c1a0e;
+      line-height: 1.1;
     }
-    .card-title svg { width: 28px; height: 28px; }
+    .card-title svg { width: clamp(24px, 4vw, 36px); height: clamp(24px, 4vw, 36px); flex-shrink: 0; }
+    .card-price-global {
+      font-size: 1.5rem;
+      color: #ccc0b0;
+      font-style: italic;
+      font-weight: 300;
+    }
 
-    /* Items */
+    /* Grid for menu items */
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px 56px;
     }
+    
+    /* Base menu item styles */
     .menu-item {
-      padding-bottom: 12px;
-      border-bottom: 1px solid #f9f6f1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(245, 240, 234, 0.8);
     }
+
+    /* Highlight box style (specifically for Milanesa) */
+    .menu-item.highlight-box {
+      border: 2px solid #c8a97e;
+      border-radius: 12px;
+      padding: 20px 16px 16px;
+      background: #fffaf0;
+      position: relative;
+      border-bottom: 2px solid #c8a97e;
+      margin-top: 8px;
+      
+      /* New grid-based layout for double-width full-width centering */
+      grid-column: 1 / -1; /* Spans across all available columns in the row */
+      justify-self: center; /* Centers the item horizontally within the full-width row */
+      width: 100%;
+      max-width: 650px; /* Limits the box width to prevent it from stretching too wide */
+    }
+
+    /* Highlight badge text */
+    .highlight-badge {
+      position: absolute;
+      top: -12px;
+      right: 16px;
+      background: #c8a97e;
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    /* Extra combo text on highlight box */
+    .menu-item-extra {
+      font-size: 0.85rem;
+      color: #c8293a;
+      font-weight: 700;
+      margin-top: 6px;
+      display: inline-block;
+      background: #fdf2f2;
+      padding: 4px 8px;
+      border-radius: 6px;
+      align-self: flex-start;
+    }
+
+    /* Name and price line */
     .menu-item-top {
       display: flex;
       justify-content: space-between;
-      font-weight: 600;
-      margin-bottom: 4px;
+      align-items: baseline;
+      gap: 8px;
     }
-    .menu-item-price { color: #b0a090; font-style: italic; }
-    .menu-item-desc { font-size: 0.85rem; color: #8a7060; font-style: italic; line-height: 1.4; }
-    .menu-item-options { font-size: 0.8rem; color: #c8a97e; margin-top: 4px; font-weight: 700; }
+    .menu-item-name {
+      font-family: 'Instrument Serif', serif; /* Use custom font for food names */
+      font-size: 1.4rem; /* Increased size to stand out */
+      font-weight: 400;
+      color: #2c1a0e;
+      line-height: 1.3;
+    }
+    .menu-item-price {
+      color: #b0a090;
+      font-style: italic;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .menu-item-desc {
+      font-size: 0.9rem; /* Increased from 0.8rem for better readability */
+      color: #9a8070;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .menu-item-options {
+      font-size: 0.78rem;
+      color: #c8a97e;
+      font-weight: 600;
+      margin-top: 2px;
+    }
 
-    /* Secciones Especiales */
+    /* Section block for grouped items */
+    .section-block {
+      margin-bottom: 36px;
+    }
     .section-block-title {
-      font-size: 0.8rem;
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #c8a97e;
-      margin: 30px 0 15px;
-      border-bottom: 1px solid #f0e8dc;
-      padding-bottom: 5px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(240, 232, 220, 0.8);
     }
 
+    /* Cocktails section layout */
+    .cocktail-section {
+      margin-bottom: 36px;
+    }
+    .cocktail-section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(240, 232, 220, 0.8);
+    }
+    .cocktail-section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #c8293a;
+    }
+    .cocktail-section-subtitle {
+      font-size: 0.75rem;
+      font-style: italic;
+      color: #c8a97e;
+    }
+
+    /* Grid for subcategories (e.g., Teas) */
+    .sub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 32px;
+    }
+    .subcat { display: flex; flex-direction: column; gap: 12px; }
+    .subcat-header { display: flex; align-items: center; gap: 12px; }
+    .subcat-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
+    .dot-black { background: #3f3f46; }
+    .dot-green { background: #10b981; }
+    .dot-gold  { background: #fbbf24; }
+    .dot-amber { background: #ea580c; }
+    .subcat-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #2c1a0e;
+    }
+    .subcat-tag {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #9a8070;
+    }
+    .subcat-profile {
+      font-size: 0.82rem; color: #7a6a58; font-style: italic;
+      line-height: 1.5; background: #f9f6f1;
+      border-left: 3px solid #ddd3c7;
+      padding: 10px 14px; border-radius: 0 8px 8px 0;
+    }
+    .subcat ul { list-style: none; display: flex; flex-direction: column; gap: 14px; padding-top: 4px; }
+    .subcat li { display: flex; flex-direction: column; gap: 3px; }
+    .subcat-li-top { display: flex; justify-content: space-between; align-items: baseline; }
+    .subcat-li-name { 
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem; font-weight: 400; color: #2c1a0e; 
+    }
+    .subcat-li-price { font-size: 0.85rem; color: #c0b0a0; font-style: italic; }
+    .subcat-li-desc { font-size: 0.78rem; color: #9a8070; font-style: italic; line-height: 1.4; }
+
+    /* Add-ons block styling */
     .agregados-box {
-      margin-top: 30px;
-      background: #fdfaf7;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px dashed #ddd3c7;
+      margin-top: 24px;
+      padding: 16px 20px;
+      background: #f9f6f1;
+      border: 1px solid rgba(236, 229, 219, 0.8);
+      border-radius: 16px;
+    }
+    .agregados-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #9a8070;
+      margin-bottom: 10px;
+    }
+    .agregados-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .agregado-chip {
-      display: inline-block;
       background: #fff;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin: 4px;
-      font-size: 0.8rem;
-      border: 1px solid #eee;
+      border: 1px solid rgba(221, 211, 199, 0.8);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      color: #5a3e28;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .agregado-chip span {
+      color: #c8a97e;
+      font-weight: 700;
+      margin-left: 4px;
     }
 
-    footer { text-align: center; padding: 30px; color: #b0a090; font-size: 0.7rem; letter-spacing: 2px; }
+    /* General card note (e.g., milk options) */
+    .card-note {
+      margin-top: 32px;
+      padding: 16px 20px;
+      background: #f9f6f1;
+      border: 1px solid rgba(236, 229, 219, 0.8);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.8rem;
+      color: #7a6a58;
+      font-weight: 500;
+    }
+    .card-note svg { width: 18px; height: 18px; color: #b0a090; flex-shrink: 0; }
 
-    @media (max-width: 600px) {
+    /* Footer styling */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.68rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    }
+
+    /* Mobile media queries */
+    @media (max-width: 520px) {
+      #menu-card { padding: 0 8px; }
+      .card-inner { padding: clamp(16px, 4vw, 24px); }
       .items-grid { grid-template-columns: 1fr; }
+      .sub-grid { grid-template-columns: 1fr; }
+      .tab-btn { padding: 7px 14px; font-size: 0.7rem; }
+      .tab-btn svg { width: 14px; height: 14px; }
+      .lang-btn { padding: 5px 10px; font-size: 0.7rem; }
+      
+      /* Important: highlight box still centered but now full-width */
+      .menu-item.highlight-box { max-width: 100%; border-radius: 10px;}
+      
+      .menu-item-name { font-size: 1.2rem; }
+      .subcat-li-name { font-size: 1rem; }
     }
   </style>
 </head>
@@ -192,7 +412,7 @@
 <header>
   <img src="Logo - Naranja.png" alt="Escaramuza"/>
   <div class="header-line"></div>
-  <p id="subtitle">MENÚ</p>
+  <p id="subtitle"></p>
 </header>
 
 <div id="tab-bar"></div>
@@ -200,138 +420,439 @@
 <footer id="footer-text"></footer>
 
 <script>
+// Available languages
 const languages = [
   {code:'es',name:'Español',flag:'🇪🇸'},
-  {code:'en',name:'English',flag:'🇬🇧'}
+  {code:'en',name:'English',flag:'🇬🇧'},
+  {code:'de',name:'Deutsch',flag:'🇩🇪'},
+  {code:'ja',name:'日本語',flag:'🇯🇵'},
+  {code:'fr',name:'Français',flag:'🇫🇷'},
+  {code:'it',name:'Italiano',flag:'🇮🇹'},
+  {code:'nl',name:'Nederlands',flag:'🇳🇱'},
+  {code:'ru',name:'Русский',flag:'🇷🇺'}
 ];
 
+// SVG icons for category tabs and title line
 const ICONS = {
-  coffee: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8zM6 1v3M10 1v3M14 1v3"/></svg>`,
-  leaf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 4 13V5a2 2 0 0 1 2-2h5c3.87 0 7 3.13 7 7 0 5.25-4.67 10-11 10zM11 3v17"/></svg>`,
-  drop: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`,
-  wind: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>`,
-  cake: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M2 21h20M7 8V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/></svg>`,
-  food: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3v10M18 17v4M14 3v10c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V3M2 20h10M5 3v17M9 3v17"/></svg>`,
-  bubble: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="9" r="1"/><circle cx="16" cy="9" r="1"/><circle cx="12" cy="15" r="1"/></svg>`,
-  wine: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 22h8M12 11v11M7 3h10c0 4-2 8-5 8s-5-4-5-8z"/></svg>`,
-  cocktail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-12l6 10zm-6 10v10m-5 0h10"/></svg>`,
-  info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`
+  coffee: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2v2m4-2v2m4-2v2M3 8h18l-1.5 10.5A2 2 0 0117.51 20H6.49a2 2 0 01-1.99-1.5L3 8zm15 0a3 3 0 013 3v0a3 3 0 01-3 3h-1"/></svg>`,
+  leaf: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3C7 3 3 7.5 3 12c0 3.87 2.5 7.17 6 8.48V21h6v-.52C18.5 19.17 21 15.87 21 12c0-4.5-4-9-9-9z"/></svg>`,
+  cake: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H5a2 2 0 01-2-2V9h18v6zM3 9V7a2 2 0 012-2h1m4-2v2m4-2v2M7 5V3m10 2V3"/></svg>`,
+  wind: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h11a4 4 0 000-8H3m0 8v0m0 0H3m15 4H3m18 0a4 4 0 01-4 4H3"/></svg>`,
+  drop: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2.25s-7.5 8.25-7.5 12a7.5 7.5 0 0015 0c0-3.75-7.5-12-7.5-12z"/></svg>`,
+  wine: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 3h8l1 7a5 5 0 01-10 0L8 3zm4 7v7m-3 4h6"/></svg>`,
+  bubble: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1.5" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><path stroke-linecap="round" d="M9 15s1 2 3 2 3-2 3-2"/></svg>`,
+  food: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v11a3 3 0 006 0V3M9 8h6M3 20h18"/></svg>`,
+  info: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>`,
+  cocktail: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 6-9 4-1 8H9l-1-8L3 3zm9 10v8"/></svg>`
 };
 
-const ICON_COLORS = ['#92400e','#16a34a','#2563eb','#d97706','#be123c','#b45309','#06b6d4','#b91c1c','#7c3aed'];
-
+// UI Translations for headers, footers, etc.
 const TR = {
   es: {
-    subtitle: "BEBIDAS Y COCINA",
+    subtitle: "MENÚ DE BEBIDAS Y COCINA",
     footer: "Precios con IVA incluido.",
     supplement: "Suplemento leche de Avena o Almendra: +0,30 €",
-    tabs: ["Cafetería","Matcha Bar","Zumos y Limonadas","Tés","Nuestra Cocina","Obrador","Refrescos","Vinos","Bar de Autor"],
-    extras: "+ Agregados"
+    agregadosTitle: "+ Agregados",
+    tabs: {coffee:"Cafetería", matcha:"Matcha Bar", dulce:"Obrador y Dulce", tes:"Tés e Infusiones", zumos:"Zumos y Limonadas", vinos:"Vinos y Cervezas", refrescos:"Refrescos", cocina:"Nuestra Cocina", autor:"Bar de Autor"},
+    cocktailSections: {especiales:{title:"ESPECIALES",sub:"Nuestras creaciones exclusivas"}, clasica:{title:"MIXOLOGÍA CLÁSICA",sub:"Referentes internacionales"}, largos:{title:"TRAGOS LARGOS",sub:"Selección refrescante"}}
   },
   en: {
-    subtitle: "DRINKS & FOOD",
+    subtitle: "DRINKS & FOOD MENU",
     footer: "Prices include VAT.",
     supplement: "Oat or Almond milk supplement: +0.30 €",
-    tabs: ["Coffee Bar","Matcha Bar","Juices & Lemonades","Teas","Our Kitchen","Bakery","Soft Drinks","Wines","Author Bar"],
-    extras: "+ Add-ons"
+    agregadosTitle: "+ Add-ons",
+    tabs: {coffee:"Coffee Bar", matcha:"Matcha Bar", dulce:"Bakery & Sweets", tes:"Teas & Infusions", zumos:"Juices & Lemonades", vinos:"Wines & Beers", refrescos:"Soft Drinks", cocina:"Our Kitchen", autor:"Author's Bar"},
+    cocktailSections: {especiales:{title:"SPECIALS",sub:"Our exclusive creations"}, clasica:{title:"CLASSIC MIXOLOGY",sub:"International references"}, largos:{title:"LONG DRINKS",sub:"Refreshing selection"}}
+  },
+  de: {
+    subtitle: "GETRÄNKE & SPEISEKARTE",
+    footer: "Preise inkl. MwSt.",
+    supplement: "Zuschlag Hafer- oder Mandelmilch: +0,30 €",
+    agregadosTitle: "+ Extras",
+    tabs: {coffee:"Kaffeehaus", matcha:"Matcha Bar", dulce:"Bäckerei & Süßes", tes:"Tee & Aufgüsse", zumos:"Säfte & Limonaden", vinos:"Wein & Bier", refrescos:"Erfrischungen", cocina:"Unsere Küche", autor:"Autor-Bar"},
+    cocktailSections: {especiales:{title:"SPECIALS",sub:"Unsere exklusiven Kreationen"}, clasica:{title:"KLASSISCHE MIXOLOGIE",sub:"Internationale Referenzen"}, largos:{title:"LONGDRINKS",sub:"Erfrischende Auswahl"}}
+  },
+  ja: {
+    subtitle: "ドリンク＆フードメニュー",
+    footer: "税込価格",
+    supplement: "オーツミルクまたはアーモンドミルク: +0.30 €",
+    agregadosTitle: "+ トッピング",
+    tabs: {coffee:"カフェ", matcha:"抹茶バー", dulce:"ベーカリー", tes:"ティー", zumos:"ジュース＆レモネード", vinos:"ワイン＆ビール", refrescos:"ソフトドリンク", cocina:"キッチン", autor:"バー"},
+    cocktailSections: {especiales:{title:"スペシャル",sub:"オリジナルカクテル"}, clasica:{title:"クラシックカクテル",sub:"定番カクテル"}, largos:{title:"ロングドリンク",sub:"爽やかなセレクション"}}
+  },
+  fr: {
+    subtitle: "MENU BOISSONS & CUISINE",
+    footer: "Prix TTC.",
+    supplement: "Lait d'avoine ou d'amande : +0,30 €",
+    agregadosTitle: "+ Suppléments",
+    tabs: {coffee:"Cafétéria", matcha:"Bar à Matcha", dulce:"Boulangerie & Douceurs", tes:"Thés & Infusions", zumos:"Jus & Limonades", vinos:"Vins & Bières", refrescos:"Rafraîchissements", cocina:"Notre Cuisine", autor:"Bar d'Auteur"},
+    cocktailSections: {especiales:{title:"SPÉCIAUX",sub:"Nos créations exclusives"}, clasica:{title:"MIXOLOGIE CLASSIQUE",sub:"Références internationales"}, largos:{title:"LONG DRINKS",sub:"Sélection rafraîchissante"}}
+  },
+  it: {
+    subtitle: "MENU BEVANDE & CUCINA",
+    footer: "Prezzi IVA inclusa.",
+    supplement: "Latte di avena o mandorla: +0,30 €",
+    agregadosTitle: "+ Aggiunte",
+    tabs: {coffee:"Caffetteria", matcha:"Matcha Bar", dulce:"Forno & Dolci", tes:"Tè e Infusi", zumos:"Succhi & Limonati", vinos:"Vini e Birre", refrescos:"Bibite", cocina:"La Nostra Cucina", autor:"Bar d'Autore"},
+    cocktailSections: {especiales:{title:"SPECIALI",sub:"Le nostre creazioni esclusive"}, clasica:{title:"MIXOLOGIA CLASSICA",sub:"Riferimenti internazionali"}, largos:{title:"LONG DRINK",sub:"Selezione rinfrescante"}}
+  },
+  nl: {
+    subtitle: "DRANKEN & SPIJSKAART",
+    footer: "Prijzen incl. BTW.",
+    supplement: "Haver- of amandelmelk: +0,30 €",
+    agregadosTitle: "+ Extra's",
+    tabs: {coffee:"Koffiebar", matcha:"Matchabar", dulce:"Bakkerij & Zoet", tes:"Thee & Infusies", zumos:"Sappen & Limonades", vinos:"Wijnen & Bieren", refrescos:"Frisdranken", cocina:"Onze Keuken", autor:"Auteurs Bar"},
+    cocktailSections: {especiales:{title:"SPECIALS",sub:"Onze exclusieve creaties"}, clasica:{title:"KLASSIEKE MIXOLOGIE",sub:"Internationale referenties"}, largos:{title:"LONG DRINKS",sub:"Verfrissende selectie"}}
+  },
+  ru: {
+    subtitle: "МЕНЮ НАПИТКОВ И КУХНИ",
+    footer: "Цены с НДС.",
+    supplement: "Овсяное или миндальное молоко: +0,30 €",
+    agregadosTitle: "+ Добавки",
+    tabs: {coffee:"Кофейня", matcha:"Матча-бар", dulce:"Пекарня и Сладкое", tes:"Чай", zumos:"Соки и Лимонады", vinos:"Вино и Пиво", refrescos:"Прохладительные", cocina:"Наша Кухня", autor:"Авторский Бар"},
+    cocktailSections: {especiales:{title:"АВТОРСКИЕ",sub:"Наши эксклюзивные коктейли"}, clasica:{title:"КЛАССИЧЕСКАЯ МИКСОЛОГИЯ",sub:"Международные классики"}, largos:{title:"ЛОНГ ДРИНК",sub:"Освежающий выбор"}}
   }
 };
 
+// Main Menu data structure
+// Milanesa box remains centered and full width
 function getMenu(lang) {
-  const t = TR[lang] || TR.es;
+  const tabs = TR[lang] ? TR[lang].tabs : TR.es.tabs;
   return [
+    // 0 OUR KITCHEN
     {
-      title: t.tabs[0], icon: ICONS.coffee, color: ICON_COLORS[0],
-      notes: t.supplement,
-      items: [
-        {name: lang==='es'?"Espresso Doble":"Double Espresso", price:"2.80 €", desc: lang==='es'?"Concentrado y potente.":"Strong and concentrated."},
-        {name: "Flat White", price:"3.20 €", desc: lang==='es'?"Doble espresso con leche sedosa.":"Double espresso with silky milk."},
-        {name: "Cold Brew", price:"4.00 €", desc: lang==='es'?"Macerado 24h en frío.":"24h cold-steeped coffee."},
-        {name: "Iced Latte", price:"4.50 €", options: lang==='es'?"Vainilla · Caramelo · Coco":"Vanilla · Caramel · Coconut"}
-      ]
-    },
-    {
-      title: t.tabs[4], icon: ICONS.food, color: ICON_COLORS[4],
+      title: tabs.cocina, icon: ICONS.food, color: '#be123c',
+      agregadosTitle: (TR[lang] || TR.es).agregadosTitle,
       flatSections: [
         {
-          title: lang==='es'?"Nuestra Cocina":"Our Kitchen",
+          title: "En nuestra cocina",
           items: [
-            {name: lang==='es'?"Milanesa de Babilla":"Sirloin Tip Milanesa", price:"13.90 €", desc: lang==='es'?"Tierna ternera rebozada con patatas.":"Tender breaded beef served with fries."},
-            {name: lang==='es'?"Oro Ibérico":"Iberian Gold", price:"13.90 €", desc: lang==='es'?"Jamón y kaki sobre ricotta y miel.":"Iberian ham & persimmon with honey."},
-            {name: "Benedictos", price:"11.50 €", desc: lang==='es'?"Huevos con salsa holandesa.":"Eggs with hollandaise sauce."}
+            {name: "French Toast", desc: "Brioche con frutos rojos, banana y helado.", price: "9.50 €"},
+            {name: "Oro Ibérico", desc: "Jamón y kaki sobre ricotta, nueces, cebolla caramelizada y miel.", price: "13.90 €"},
+            {name: "Benedictos", desc: "Huevos con salsa holandesa, aguacate, cebolla, rábanos y brotes.", price: "11.50 €"},
+            {name: "Champiñones", desc: "Champiñones salteados, burrata cremosa, cebolla caramelizada y piñones.", price: "10.50 €"},
+            {name: "Salmón", desc: "Salmón ahumado, aguacate con vinagreta de la casa y brotes.", price: "13.50 €"},
+            {name: "Aguacate", desc: "Aguacate, huevo, tomate cherry, rábano y sésamo sobre queso crema.", price: "9.50 €"},
+            {name: "Tosta de Tomate", desc: "Tomate fresco, aceite de oliva, brotes y albahaca.", price: "3.80 €"},
+            {name: "Queso y Miel", desc: "Queso, nueces crujientes y miel.", price: "6.50 €"},
+            // Centered Milanesa box
+            {
+              name: "Tostada con milanesa", 
+              desc: "Babilla de ternera, pan con masa madre, salsa milanesa, tomate, lechuga y rúcula.", 
+              price: "13.90 €",
+              highlight: true,
+              badge: "PROMO LUNCH + BEBIDA €15",
+              extraInfo: "Combo Milanesa: €14.50 con Refresco o Cerveza (lun a vie)"
+            }
           ]
         }
       ],
-      agregados: [{name:lang==='es'?"Huevo":"Egg", price:"1.50 €"}, {name:lang==='es'?"Aguacate":"Avocado", price:"2.50 €"}],
-      agregadosTitle: t.extras
+      agregados: [
+        {name: "Huevo", price: "1.50 €"}, {name: "Jamón", price: "2.00 €"}, {name: "Aguacate", price: "2.50 €"},
+        {name: "Salmón", price: "4.50 €"}, {name: "Champiñones", price: "1.50 €"}, {name: "Tomate", price: "1.00 €"}
+      ]
     },
+    // 1 BAKERY & SWEETS
     {
-      title: t.tabs[5], icon: ICONS.cake, color: ICON_COLORS[5],
+      title: tabs.dulce, icon: ICONS.cake, color: '#b45309',
       items: [
-        {name: "Cinnamon Roll", price:"4.50 €", options: "Lotus · Nut · Red Berries"},
-        {name: lang==='es'?"Tarta de Queso con Brownie":"Brownie Cheesecake", price:"4.90 €"},
-        {name: "Carrot Cake", price:"4.50 €"}
+        {name: "Cinnamon Roll", desc: "Esponjoso y recién horneado.", price: "4.50 €", options: "Nueces · Frutos Rojos · Lotus"},
+        {name: "Tarta de Queso con Brownie", desc: "Cremosa tarta de queso sobre base de brownie.", price: "5.50 €"},
+        {name: "Tarta de Zanahoria", desc: "Clásica tarta húmeda con frosting.", price: "4.00 €"},
+        {name: "Pan de Banana", desc: "Esponjoso pan de plátano artesanal.", price: "4.00 €"},
+        {name: "Cookie", desc: "Galleta horneada con chips.", price: "3.50 €", options: "Chocolate · Lotus · Pistacho"},
+        {name: "Croissant", desc: "Hojaldre de mantequilla.", price: "2.50 €", options: "Mixto (+2.00 €) · Almendras (+1.00 €)"},
+        {name: "Alfajor", desc: "Clásico argentino de dulce de leche.", price: "3.50 €"}
+      ]
+    },
+    // 2 COFFEE BAR
+    {
+      title: tabs.coffee, icon: ICONS.coffee, color: '#92400e',
+      notes: (TR[lang] || TR.es).supplement,
+      items: [
+        {name: "Espresso Doble", desc: "Intenso y puro.", price: "2.80 €"},
+        {name: "Cortado", desc: "Espresso con un toque de leche.", price: "2.80 €"},
+        {name: "Americano", desc: "Espresso con agua caliente.", price: "3.00 €"},
+        {name: "Flat White", desc: "Doble espresso con fina capa de leche.", price: "3.20 €"},
+        {name: "Capuccino", desc: "Espresso, leche y espuma.", price: "3.20 €"},
+        {name: "Latte", desc: "Espresso con mucha leche cremosa.", price: "3.20 €"},
+        {name: "Chocolate", desc: "Cacao puro y leche.", price: "4.00 €"},
+        {name: "Chai Latte", desc: "Té negro especiado con leche.", price: "4.00 €"},
+        {name: "Dirty Chai", desc: "Chai Latte con un shot de espresso.", price: "4.50 €"},
+        {name: "Cold Brew", desc: "Café infusionado en frío (24h).", price: "4.00 €"},
+        {name: "Iced Latte", desc: "Espresso con leche y hielo.", price: "3.80 €", options: "Vainilla · Caramelo · Coco (+0.50 €)"}
+      ]
+    },
+    // 3 MATCHA BAR
+    {
+      title: tabs.matcha, icon: ICONS.leaf, color: '#16a34a',
+      items: [
+        {name: "Matcha Latte", desc: "Matcha ceremonial de Kioto con leche.", price: "4.90 €"},
+        {name: "Iced Matcha Mango", desc: "Matcha frío sobre puré de mango.", price: "5.50 €"},
+        {name: "Iced Matcha Frutos Rojos", desc: "Matcha frío con sirope artesano de bayas.", price: "5.50 €"},
+        {name: "Iced Matcha Coco", desc: "Matcha frío con leche de coco.", price: "5.50 €"},
+        {name: "Iced Matcha Maracuyá", desc: "Matcha frío tropical y refrescante.", price: "5.50 €"},
+        {name: "Matcha Escaramuza", desc: "Nuestra receta secreta y especial.", price: "5.50 €"}
+      ]
+    },
+    // 4 TEAS & INFUSIONS
+    {
+      title: tabs.tes, icon: ICONS.wind, color: '#d97706',
+      globalPrice: "3.80 €",
+      subcategories: [
+        {
+          name: "GAMA NEGRA", tag: "Estimulante", dot: "dot-black",
+          profile: "Cuerpo intenso, alto en teína.",
+          items: [{name: "English Breakfast Eco"}, {name: "Earl Grey"}, {name: "Chai Negro"}]
+        },
+        {
+          name: "GAMA VERDE Y BLANCA", tag: "Antioxidante", dot: "dot-green",
+          profile: "Fresco, floral, teína media.",
+          items: [{name: "Verde Jazmín"}, {name: "Verde Sakura"}, {name: "Blanco Seda"}, {name: "Noches de Toronto"}, {name: "Silueta"}]
+        },
+        {
+          name: "GAMA DORADA", tag: "Digestiva", dot: "dot-gold",
+          profile: "Sin teína, herbal y cítrica.",
+          items: [{name: "Manzanilla"}, {name: "Jengibre y Limón"}, {name: "Jengibre y Cúrcuma"}, {name: "Inmunidad"}, {name: "Depurativa"}, {name: "Chai Digestivo"}]
+        },
+        {
+          name: "GAMA ÁMBAR Y FLORAL", tag: "Relajante", dot: "dot-amber",
+          profile: "Sin teína, dulce y frutal.",
+          items: [{name: "Rooibos Clásico"}, {name: "Rooibos Noches"}, {name: "Lavanda"}]
+        }
+      ]
+    },
+    // 5 JUICES & LEMONADES
+    {
+      title: tabs.zumos, icon: ICONS.drop, color: '#2563eb',
+      globalPrice: "4.00 €",
+      items: [
+        {name: "Zumo Naranja Natural"}, {name: "Limonada Clásica"}, {name: "Limonada Frambuesa"},
+        {name: "Limonada Mango"}, {name: "Limonada Coco"}, {name: "Limonada Maracuyá"}, {name: "Limonada Menta y Jengibre"}
+      ]
+    },
+    // 6 WINES & BEERS
+    {
+      title: tabs.vinos, icon: ICONS.wine, color: '#b91c1c',
+      items: [
+        {name: "Cerveza Estrella Galicia", desc: "Especial o 0.0 Tostada.", price: "4.00 €"},
+        {name: "Vino Blanco", desc: "Seco o Afrutado (Copa).", price: "4.00 €"},
+        {name: "Vino Tinto", desc: "Crianza (Copa).", price: "4.00 €"},
+        {name: "Tinto de Verano", desc: "Tinto con limón.", price: "4.00 €"}
+      ]
+    },
+    // 7 AUTHOR'S BAR
+    {
+      title: tabs.autor, icon: ICONS.cocktail, color: '#7c3aed',
+      cocktailSections: [
+        {
+          key: "especiales",
+          price: "10 €",
+          items: [
+            {name: "Espresso Martini", desc: "Café, vodka, licor de café.", price: "11 €"},
+            {name: "Piña Colada", desc: "Ron, coco, piña.", price: "10 €"},
+            {name: "Mango Gin Fizz", desc: "Ginebra, mango, lima, soda.", price: "10 €"},
+            {name: "Escaramuza Cocktail", desc: "Nuestra creación de autor.", price: "10 €"}
+          ]
+        },
+        {
+          key: "clasica",
+          price: "9 € / 10 €",
+          items: [
+            {name: "Moscow Mule", desc: "Vodka, jengibre, lima.", price: "10 €"},
+            {name: "Aperol Spritz", desc: "Aperol, prosecco, soda.", price: "9 €"},
+            {name: "Fernet con Cola", desc: "Fernet branca y coca cola.", price: "9 €"},
+            {name: "Campari Spritz", desc: "Campari, prosecco, soda.", price: "9 €"},
+            {name: "Cuba Libre", desc: "Ron añejo, cola, lima.", price: "9 €"}
+          ]
+        },
+        {
+          key: "largos",
+          price: "9 €",
+          items: [
+            {name: "Tequila Sunrise", desc: "Tequila, naranja, granadina.", price: "9 €"},
+            {name: "Vodka Sunrise", desc: "Vodka, naranja, granadina.", price: "9 €"},
+            {name: "Gin Cítrico", desc: "Ginebra, tónica, cítricos.", price: "9 €"}
+          ]
+        }
+      ]
+    },
+    // 8 SOFT DRINKS
+    {
+      title: tabs.refrescos, icon: ICONS.bubble, color: '#06b6d4',
+      globalPrice: "3.00 €",
+      items: [
+        {name: "Coca-Cola / Zero"}, {name: "Fanta / 7up"}, {name: "Nestea / Aquarius"},
+        {name: "Tónica"}, {name: "Energizante"}, {name: "Agua Con/Sin Gas"}
       ]
     }
   ];
 }
 
+// Global state
 let currentLang = 'es';
 let currentTab = 0;
 
-function render() {
-  const t = TR[currentLang] || TR.es;
-  const menu = getMenu(currentLang);
-  const cat = menu[currentTab] || menu[0];
-
-  // Render Lang Bar
-  document.getElementById('lang-bar').innerHTML = languages.map(l => 
-    `<button class="lang-btn ${l.code===currentLang?'active':''}" onclick="changeLang('${l.code}')">${l.flag} ${l.name}</button>`
-  ).join('');
-
-  // Render Tabs
-  document.getElementById('tab-bar').innerHTML = menu.map((c, i) => 
-    `<button class="tab-btn ${i===currentTab?'active':''}" onclick="changeTab(${i})" style="color:${c.color}">${c.icon} ${c.title}</button>`
-  ).join('');
-
-  // Render Card
-  let bodyHTML = '';
-  if (cat.flatSections) {
-    bodyHTML = cat.flatSections.map(sec => `
-      <div class="section-block-title">${sec.title}</div>
-      <div class="items-grid">${sec.items.map(it => `
-        <div class="menu-item">
-          <div class="menu-item-top"><span>${it.name}</span><span>${it.price}</span></div>
-          <div class="menu-item-desc">${it.desc || ''}</div>
-        </div>`).join('')}</div>
-    `).join('');
-    if (cat.agregados) {
-      bodyHTML += `<div class="agregados-box"><div class="section-block-title" style="margin-top:0">${cat.agregadosTitle}</div>` + 
-        cat.agregados.map(a => `<span class="agregado-chip">${a.name} <b>${a.price}</b></span>`).join('') + `</div>`;
-    }
-  } else {
-    bodyHTML = `<div class="items-grid">${cat.items.map(it => `
-      <div class="menu-item">
-        <div class="menu-item-top"><span>${it.name}</span><span>${it.price}</span></div>
-        <div class="menu-item-desc">${it.desc || ''}</div>
-        ${it.options ? `<div class="menu-item-options">● ${it.options}</div>` : ''}
-      </div>`).join('')}</div>`;
+// Update UI text (header, footer, aggregated title)
+function updateUIText() {
+  const ui = TR[currentLang] || TR.es;
+  document.getElementById('subtitle').textContent = ui.subtitle;
+  
+  const foot = ui.footer;
+  document.getElementById('footer-text').textContent = `© ${new Date().getFullYear()} Escaramuza Coffee Bar · ${foot}`;
+  
+  const currentMenu = getMenu(currentLang);
+  if (currentMenu[currentTab].agregados) {
+    currentMenu[currentTab].agregadosTitle = ui.agregadosTitle;
   }
-
-  document.getElementById('card-inner').innerHTML = `
-    <div class="card-header"><div class="card-title" style="color:${cat.color}">${cat.icon} ${cat.title}</div></div>
-    ${bodyHTML}
-    ${cat.notes ? `<div style="margin-top:20px; font-size:0.8rem; color:#9a7d5e">${ICONS.info} ${cat.notes}</div>` : ''}
-  `;
-
-  document.getElementById('subtitle').textContent = t.subtitle;
-  document.getElementById('footer-text').textContent = `© ${new Date().getFullYear()} Escaramuza Coffee Bar · ${t.footer}`;
 }
 
-function changeLang(code) { currentLang = code; render(); }
-function changeTab(idx) { currentTab = idx; render(); }
+// Set up language buttons
+function renderLangBar() {
+  const langBar = document.getElementById('lang-bar');
+  langBar.innerHTML = languages.map(l => `
+    <button class="lang-btn ${l.code === currentLang ? 'active' : ''}" onclick="changeLang('${l.code}')">
+      <span>${l.flag}</span><span>${l.name}</span>
+    </button>
+  `).join('');
+}
 
-render();
+// Generate tabs
+function renderTabs() {
+  const menu = getMenu(currentLang);
+  const tabBar = document.getElementById('tab-bar');
+  tabBar.innerHTML = menu.map((cat, idx) => `
+    <button class="tab-btn ${idx === currentTab ? 'active' : ''}" onclick="changeTab(${idx})" style="${cat.color ? `color: ${cat.color}` : ''}">
+      ${cat.icon}${cat.title}
+    </button>
+  `).join('');
+}
+
+// Helper to generate a single menu item HTML
+function itemHTML(it, globalPrice) {
+  const price = it.price || globalPrice || '';
+  const isHighlight = it.highlight ? 'highlight-box' : '';
+  const badge = it.badge ? `<div class="highlight-badge">${it.badge}</div>` : '';
+  
+  return `
+    <div class="menu-item ${isHighlight}">
+      ${badge}
+      <div class="menu-item-top">
+        <span class="menu-item-name">${it.name}</span>
+        <span class="menu-item-price">${price}</span>
+      </div>
+      ${it.desc ? `<span class="menu-item-desc">${it.desc}</span>` : ''}
+      ${it.options ? `<span class="menu-item-options">● ${it.options}</span>` : ''}
+      ${it.extraInfo ? `<div class="menu-item-extra">${it.extraInfo}</div>` : ''}
+    </div>
+  `;
+}
+
+// Generate main menu card content
+function renderCard() {
+  const menu = getMenu(currentLang);
+  const cat = menu[currentTab];
+  const ui = TR[currentLang] || TR.es;
+  let bodyHTML = '';
+
+  if (cat.cocktailSections) {
+    // Cocktail bar sections
+    bodyHTML = cat.cocktailSections.map(sec => {
+      const sectionInfo = ui.cocktailSections[sec.key] || {title: sec.key, sub:''};
+      return `
+        <div class="cocktail-section">
+          <div class="cocktail-section-header">
+            <span class="cocktail-section-title">${sectionInfo.title}</span>
+            ${sectionInfo.sub ? `<span class="cocktail-section-subtitle">— ${sectionInfo.sub} — ${sec.price}</span>` : ''}
+          </div>
+          <div class="items-grid">
+            ${sec.items.map(it => itemHTML(it)).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  } else if (cat.subcategories) {
+    // Tea/infusion grid
+    bodyHTML = `<div class="sub-grid">${cat.subcategories.map(sub => `
+      <div class="subcat">
+        <div class="subcat-header">
+          <div class="subcat-dot ${sub.dot}"></div>
+          <div>
+            <div class="subcat-name">${sub.name}</div>
+            <div class="subcat-tag">${sub.tag}</div>
+          </div>
+        </div>
+        <div class="subcat-profile">${sub.profile}</div>
+        <ul>${sub.items.map(it => `
+          <li>
+            <div class="subcat-li-top">
+              <span class="subcat-li-name">${it.name}</span>
+              <span class="subcat-li-price">${cat.globalPrice}</span>
+            </div>
+            ${it.desc ? `<span class="subcat-li-desc">${it.desc}</span>` : ''}
+          </li>
+        `).join('')}
+        </ul>
+      </div>
+    `).join('')}
+    </div>`;
+
+  } else if (cat.flatSections) {
+    // Kitchen sections with add-ons
+    bodyHTML = cat.flatSections.map(sec => `
+      <div class="section-block">
+        <div class="items-grid">
+          ${sec.items.map(it => itemHTML(it)).join('')}
+        </div>
+      </div>
+    `).join('');
+
+    // Add-ons list
+    if (cat.agregados) {
+      bodyHTML += `
+        <div class="agregados-box">
+          <div class="agregados-title">${cat.agregadosTitle}</div>
+          <div class="agregados-list">
+            ${cat.agregados.map(a => `
+              <div class="agregado-chip">${a.name}<span>${a.price}</span></div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+  } else {
+    // Standard item grid
+    bodyHTML = `<div class="items-grid">
+      ${cat.items.map(it => itemHTML(it, cat.globalPrice)).join('')}
+    </div>`;
+  }
+
+  // Final card structure
+  const globalPriceHTML = (cat.globalPrice && !cat.subcategories) ? `<span class="card-price-global">${cat.globalPrice}</span>` : '';
+  const notesHTML = cat.notes ? `<div class="card-note">${ICONS.info}<p>${cat.notes}</p></div>` : '';
+
+  document.getElementById('card-inner').innerHTML = `
+    <div class="card-header">
+      <div class="card-title" style="${cat.color ? `color: ${cat.color}` : ''}">
+        ${cat.icon}${cat.title}
+      </div>
+      ${globalPriceHTML}
+    </div>
+    ${bodyHTML}
+    ${notesHTML}
+  `;
+}
+
+// Init and main update functions
+function update() { renderTabs(); renderCard(); updateUIText(); }
+function changeLang(code) { currentLang = code; renderLangBar(); currentTab = 0; update(); }
+function changeTab(idx) { currentTab = idx; renderTabs(); renderCard(); }
+
+// Initial render
+renderLangBar();
+update();
 </script>
 </body>
 </html>
